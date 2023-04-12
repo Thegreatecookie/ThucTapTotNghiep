@@ -1,63 +1,85 @@
-import { Box } from "@mui/material";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import { mockDataStudents } from "../../data/mockData";
+import { Box, Button, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
+import { StudentAPI } from "../../services";
+import { tokens } from "../../theme";
+import { CustomToolbar } from "../global/customToolbar";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Student = () => {
+  const [student, setStudent] = useState([]);
+  const [totalStudent, setTotalStudent] = useState(0);
+  const [pageOptions, setPageOptions] = useState(() => ({
+    page: 1,
+    pageSize: 10,
+  }));
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  useEffect(() => {
+    StudentAPI.getStudent(pageOptions).then((res) => {
+      const students =
+        res?.students?.map((studentItem, index) => {
+          const idIncrement =
+            index + 1 + (pageOptions.page - 1) * pageOptions.pageSize;
+          const id = studentItem._id;
+          return { ...studentItem, id, idIncrement };
+        }) ?? [];
+      setStudent(students);
+      setTotalStudent(res?.total ?? 0);
+    });
+  }, [pageOptions]);
+
+  console.log(student, "STUDENT");
+
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
+    { field: "idIncrement", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "lastName",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
       field: "phone",
       headerName: "Phone Number",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
       field: "email",
       headerName: "Email",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "address",
-      headerName: "Address",
+      field: "classRoom",
+      headerName: "Class",
       flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
+      field: "action",
+      headerName: "Action",
+      width: 90,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return <Button startIcon={<EditIcon />} />;
+      },
     },
   ];
 
   return (
     <Box m="20px">
-      <Header
-        title="STUDENTS"
-        subtitle="List of Students for Future Reference"
-      />
+      <Header title="STUDENTS" subtitle="List of Students" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -88,12 +110,28 @@ const Student = () => {
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
             color: `${colors.grey[100]} !important`,
           },
+          "& .MuiButtonBase-root ": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
         <DataGrid
-          rows={mockDataStudents}
+          checkboxSelection
+          rows={student}
           columns={columns}
-          components={{ Toolbar: GridToolbar }}
+          components={{ Toolbar: CustomToolbar }}
+          page={pageOptions.page - 1}
+          pageSize={pageOptions.pageSize}
+          onPageChange={(page) =>
+            setPageOptions({ ...pageOptions, page: page + 1 })
+          }
+          onPageSizeChange={(pageSize) =>
+            setPageOptions({ ...pageOptions, pageSize })
+          }
+          rowCount={totalStudent}
+          pagination
+          paginationMode="server"
+          rowsPerPageOptions={[10, 25, 50]}
         />
       </Box>
     </Box>

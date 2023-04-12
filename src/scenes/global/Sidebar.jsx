@@ -5,10 +5,15 @@ import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import SubjectIcon from "@mui/icons-material/Subject";
 import ClassIcon from "@mui/icons-material/Class";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import { Remove } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_PATH } from "../../constants";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -33,7 +38,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -73,7 +78,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" color={colors.grey[100]}>
-                Welcome
+                  Welcome
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -82,28 +87,24 @@ const Sidebar = () => {
             )}
           </MenuItem>
 
-          {!isCollapsed && (
-            <Box mb="25px">
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Ed Roh
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
-              </Box>
-            </Box>
-          )}
-
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <MenuItem
+              active={selected === "Signout"}
+              style={{
+                color: colors.grey[100],
+              }}
+              onClick={() => {
+                setSelected("Signout");
+                localStorage.removeItem("token");
+                navigate("/signin");
+              }}
+              icon={<MeetingRoomOutlinedIcon />}
+            >
+              <Typography>Signout</Typography>
+            </MenuItem>
             <Item
               title="Dashboard"
-              to="/"
+              to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -116,37 +117,23 @@ const Sidebar = () => {
               Manage
             </Typography>
             <Item
-              title="Account"
-              to="/account"
-              icon={<ClassIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
               title="Subject"
-              to="/subject"
-              icon={<ClassIcon />}
+              to={ROUTE_PATH.SUBJECT_LIST}
+              icon={<SubjectIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Student"
-              to="/student"
+              to={ROUTE_PATH.STUDENT_LIST}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Notification"
-              to="/notification"
+              to={ROUTE_PATH.NOTIFICATION_LIST}
               icon={<NotificationsNoneIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title=""
-              to="/form"
-              icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

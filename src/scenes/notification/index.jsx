@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import { mockDataNotifications } from "../../data/mockData";
 import Header from "../../components/Header";
-
+import { CustomToolbar } from "../global/customToolbar";
 const Notification = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -72,9 +72,20 @@ const Notification = () => {
           "& .MuiCheckbox-root": {
             color: `${colors.greenAccent[200]} !important`,
           },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+            color: `${colors.grey[100]} !important`,
+          },
+          "& .MuiButtonBase-root ": {
+            color: `${colors.grey[100]} !important`,
+          },
         }}
       >
-        <DataGrid checkboxSelection rows={mockDataNotifications} columns={columns} />
+        <DataGrid
+          checkboxSelection
+          rows={mockDataNotifications}
+          columns={columns}
+          components={{ Toolbar: CustomToolbar }}
+        />
       </Box>
     </Box>
   );
