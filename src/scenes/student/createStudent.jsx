@@ -6,9 +6,13 @@ import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
 import { CreateStudentSchema } from "../../schemas";
 import { StudentAPI } from "../../services";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_PATH } from "../../constants";
+import { toast } from "react-toastify";
 
 const CreateStudent = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,13 +23,34 @@ const CreateStudent = () => {
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    // StudentAPI.createStudent("", data)
-    //   .then((res) => {
-    //     console.log(res, "CREATE RES");
-    //   })
-    //   .catch((err) => {
-    //     // Do something
-    //   });
+    StudentAPI.createStudent(data)
+      .then((res) => {
+        console.log(res, "CREATE RES");
+        toast.success("Create student successfully", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          onClose: () => navigate(ROUTE_PATH.STUDENT_LIST),
+        });
+      })
+      .catch((err) => {
+        // Do something
+        toast.error("Create student failure", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
 
   return (

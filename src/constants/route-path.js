@@ -6,4 +6,5 @@ export const ROUTE_PATH = {
   NOTIFICATION_LIST: "/notification",
   SIGNIN: "/signin",
   SIGNUP: "/signup",
+  EDIT_STUDENT: "/student/edit",
 };

@@ -14,6 +14,8 @@ import { Template } from "./scenes/global/Template";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import Form from "./scenes/form";
 import { ROUTE_PATH } from "./constants";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -38,6 +40,10 @@ function App() {
                   path={ROUTE_PATH.CREATE_STUDENT}
                   element={<CreateStudent />}
                 />
+                <Route
+                  path={ROUTE_PATH.EDIT_STUDENT}
+                  element={<EditStudent />}
+                />
                 <Route path={ROUTE_PATH.SUBJECT_LIST} element={<Subject />} />
                 <Route
                   path={ROUTE_PATH.NOTIFICATION_LIST}
@@ -54,6 +60,7 @@ function App() {
           </Routes>
         </div>
       </ThemeProvider>
+      <ToastContainer />
     </ColorModeContext.Provider>
   );
 }

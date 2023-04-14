@@ -12,8 +12,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 
-export function CustomToolbar() {
+export function CustomToolbar({ onDelete }) {
   const navigate = useNavigate();
+  // const { selectedIds, setSelectedIds } = useContext(GlobalContext);
 
   return (
     <div
@@ -37,7 +38,9 @@ export function CustomToolbar() {
         >
           Add
         </Button>
-        <Button startIcon={<DeleteIcon />}>Delete</Button>
+        <Button startIcon={<DeleteIcon />} onClick={onDelete}>
+          Delete
+        </Button>
         {/* <Button startIcon={<EditIcon />}>Edit</Button> */}
       </div>
     </div>

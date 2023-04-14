@@ -6,6 +6,11 @@ import { StudentAPI } from "../../services";
 import { tokens } from "../../theme";
 import { CustomToolbar } from "../global/customToolbar";
 import EditIcon from "@mui/icons-material/Edit";
+import { ROUTE_PATH } from "../../constants";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts";
+import { toast } from "react-toastify";
 
 const Student = () => {
   const [student, setStudent] = useState([]);
@@ -14,11 +19,16 @@ const Student = () => {
     page: 1,
     pageSize: 10,
   }));
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
-  useEffect(() => {
+  const handleEditStudent = (id) =>
+    navigate(ROUTE_PATH.EDIT_STUDENT, { state: { id } });
+
+  const fetchStudents = (pageOptions) => {
     StudentAPI.getStudent(pageOptions).then((res) => {
       const students =
         res?.students?.map((studentItem, index) => {
@@ -30,9 +40,42 @@ const Student = () => {
       setStudent(students);
       setTotalStudent(res?.total ?? 0);
     });
+  };
+
+  useEffect(() => {
+    fetchStudents(pageOptions);
   }, [pageOptions]);
 
   console.log(student, "STUDENT");
+
+  const handleDeleteMany = async () => {
+    try {
+      await Promise.all(selectedIds.map((id) => StudentAPI.deleteStudent(id)));
+      fetchStudents(pageOptions);
+      const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
+      return toast.success(msg, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      return toast.error("Deleted failure", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
 
   const columns = [
     { field: "idIncrement", headerName: "ID", flex: 0.5 },
@@ -71,8 +114,13 @@ const Student = () => {
       headerName: "Action",
       width: 90,
       renderCell: (params) => {
-        console.log(params, "params");
-        return <Button startIcon={<EditIcon />} />;
+        // console.log(params, "params");
+        return (
+          <Button
+            onClick={() => handleEditStudent(params.id)}
+            startIcon={<EditIcon />}
+          />
+        );
       },
     },
   ];
@@ -119,7 +167,9 @@ const Student = () => {
           checkboxSelection
           rows={student}
           columns={columns}
-          components={{ Toolbar: CustomToolbar }}
+          components={{
+            Toolbar: () => CustomToolbar({ onDelete: handleDeleteMany }),
+          }}
           page={pageOptions.page - 1}
           pageSize={pageOptions.pageSize}
           onPageChange={(page) =>
@@ -132,6 +182,10 @@ const Student = () => {
           pagination
           paginationMode="server"
           rowsPerPageOptions={[10, 25, 50]}
+          onSelectionModelChange={(ids) => {
+            console.log(ids, "IDS");
+            setSelectedIds(ids);
+          }}
         />
       </Box>
     </Box>
