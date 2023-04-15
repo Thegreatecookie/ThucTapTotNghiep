@@ -4,13 +4,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
-import { StudentSchema } from "../../schemas";
-import { StudentAPI } from "../../services";
+import { ClassRoomSchema } from "../../schemas";
+import { ClassRoomAPI } from "../../services";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { tokens } from "../../theme";
+import { useTheme } from "@mui/material";
 import { ROUTE_PATH } from "../../constants";
 
-const EditStudent = () => {
+const EditClassRoom = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const {
     state: { id },
@@ -21,23 +25,23 @@ const EditStudent = () => {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(StudentSchema),
+    resolver: yupResolver(ClassRoomSchema),
     defaultValues: {
-      firstName: "firstName",
-      lastName: "lastName",
-      classRoom: "classRoom",
-      email: "email",
-      phone: "phone",
+      name: "name",
+      period: "period",
     },
   });
-
   const navigate = useNavigate();
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    StudentAPI.updateStudent(id, data)
+    ClassRoomAPI.updateClassRoom(id, data)
       .then((res) => {
         console.log(res, "UPDATE RES");
-        toast.success("Update student successfully", {
+        toast.success("Update ClassRoom successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -50,7 +54,7 @@ const EditStudent = () => {
       })
       .catch((err) => {
         // Do something
-        toast.error("Create student failure", {
+        toast.error("Update ClassRoom failure", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -64,17 +68,14 @@ const EditStudent = () => {
   };
 
   useEffect(() => {
-    StudentAPI.getStudentById(id)
+    ClassRoomAPI.getClassRoomById(id)
       .then((res) => {
         console.log(res, "GET ONE RES");
-        const { classRoom, email, firstName, lastName, phone } = res;
-        setValue("firstName", firstName, {
+        const { name, period } = res;
+        setValue("name", name, {
           shouldValidate: true,
         });
-        setValue("classRoom", classRoom, { shouldValidate: true });
-        setValue("email", email, { shouldValidate: true });
-        setValue("lastName", lastName, { shouldValidate: true });
-        setValue("phone", phone, { shouldValidate: true });
+        setValue("period", period, { shouldValidate: true });
       })
       .catch((err) => {
         // Do something
@@ -85,7 +86,7 @@ const EditStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="EDIT STUDENT" subtitle="Edit student file" />
+      <Header title="EDIT CLASROOM" subtitle="Edit Classroom Information" />
 
       <Box
         component="form"
@@ -102,68 +103,45 @@ const EditStudent = () => {
           }}
         >
           <TextField
-            id="firstName"
+            id="name"
             fullWidth
             variant="filled"
-            label="First Name"
-            {...register("firstName")}
-            error={!!errors?.firstName?.message}
-            helperText={errors?.firstName?.message}
+            label="Name"
+            {...register("name")}
+            error={!!errors?.name?.message}
+            helperText={errors?.name?.message}
             sx={{ gridColumn: "span 2" }}
             // InputLabelProps={{ shrink: true }}
           />
           <TextField
-            id="lastName"
+            id="period"
             fullWidth
             variant="filled"
             type="text"
-            label="Last Name"
-            {...register("lastName")}
-            error={!!errors?.lastName?.message}
-            helperText={errors?.lastName?.message}
+            label="Period"
+            {...register("period")}
+            error={!!errors?.period?.message}
+            helperText={errors?.period?.message}
             sx={{ gridColumn: "span 2" }}
           />
-          <TextField
-            id="classRoom"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Classroom"
-            {...register("classRoom")}
-            error={!!errors?.classRoom?.message}
-            helperText={errors?.classRoom?.message}
-            sx={{ gridColumn: "span 4" }}
-          />
-          <TextField
-            id="email"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Email"
-            {...register("email")}
-            error={!!errors?.email?.message}
-            helperText={errors?.email?.message}
-            sx={{ gridColumn: "span 4" }}
-          />
-          <TextField
-            id="phone"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Phone Number"
-            {...register("phone")}
-            error={!!errors?.phone?.message}
-            helperText={errors?.phone?.message}
-            sx={{ gridColumn: "span 4" }}
-          />
+          {/* <DropdownButton
+            id="dropdown-basic-button"
+            title="Dropdown button"
+            size="lg"
+          >
+            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+          </DropdownButton> */}
         </Box>
+
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.STUDENT_LIST)}
+            onClick={() => navigate(ROUTE_PATH.CLASSROOM_LIST)}
           >
             Back
           </Button>
@@ -176,4 +154,4 @@ const EditStudent = () => {
   );
 };
 
-export default EditStudent;
+export default EditClassRoom;

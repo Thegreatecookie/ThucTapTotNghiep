@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { phoneRegExp } from "../constants";
 
-export const CreateStudentSchema = yup.object().shape({
+export const StudentSchema = yup.object().shape({
   firstName: yup.string().required("required"),
   lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),

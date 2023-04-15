@@ -13,11 +13,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
+import { useEffect } from "react";
 
 const SignUp = () => {
   const theme = createTheme();
   //   const [signupError, setSignupError]
-  //  = React.useState  const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -26,6 +27,12 @@ const SignUp = () => {
       password: data.get("password"),
     });
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate(-1);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,7 +77,6 @@ const SignUp = () => {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -80,18 +86,15 @@ const SignUp = () => {
                   id="email"
                   label="Email Address"
                   name="email"
-                  autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                  name="phone"
+                  label="Phone"
+                  id="phone"
                 />
               </Grid>
             </Grid>

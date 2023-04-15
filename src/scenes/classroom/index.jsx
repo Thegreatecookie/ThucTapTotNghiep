@@ -1,18 +1,17 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import { CustomToolbar } from "../global/customToolbar";
-import EditIcon from "@mui/icons-material/Edit";
 import { ROUTE_PATH } from "../../constants";
 import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
-import { SubjectAPI } from "../../services";
-
-const Subject = () => {
-  const [subject, setSubject] = useState([]);
-  const [totalSubject, setTotalSubject] = useState(0);
+import { ClassRoomAPI } from "../../services";
+import React, { useEffect, useState } from "react";
+const ClassRoom = () => {
+  const [classRoom, setClassRoom] = useState([]);
+  const [totalClassRoom, setTotalClassRoom] = useState(0);
   const [pageOptions, setPageOptions] = useState(() => ({
     page: 1,
     pageSize: 10,
@@ -23,37 +22,40 @@ const Subject = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const handleEditSubject = (id) =>
-    navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
+  const handleEditClassroom = (id) => {
+    navigate(ROUTE_PATH.EDIT_CLASSROOM, { state: { id } });
+  };
 
-  const fetchSubjects = (pageOptions) => {
-    SubjectAPI.getSubject(pageOptions).then((res) => {
-      const subjects =
-        res?.subjects?.map((subjectItem, index) => {
+  const fetchClassrooms = (pageOptions) => {
+    ClassRoomAPI.getClassRoom(pageOptions).then((res) => {
+      const classRooms =
+        res?.classRooms?.map((classRoomItem, index) => {
           const idIncrement =
             index + 1 + (pageOptions.page - 1) * pageOptions.pageSize;
-          const id = subjectItem._id;
-          return { ...subjectItem, id, idIncrement };
+          const id = classRoomItem._id;
+          return { ...classRoomItem, id, idIncrement };
         }) ?? [];
-      setSubject(subjects);
-      setTotalSubject(res?.total ?? 0);
+      setClassRoom(classRooms);
+      setTotalClassRoom(res?.total ?? 0);
     });
   };
 
   useEffect(() => {
-    fetchSubjects(pageOptions);
+    fetchClassrooms(pageOptions);
   }, [pageOptions]);
 
-  console.log(subject, "SUBJECT");
+  console.log(classRoom, "CLASSROOM");
 
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
         await Promise.all(
-          selectedIds.map((id) => SubjectAPI.deleteSubject(id))
+          selectedIds.map((id) => ClassRoomAPI.deleteClassRoom(id))
         );
-        fetchSubjects(pageOptions);
-        const msg = `Deleted subjects (${selectedIds.join(", ")}) successfully`;
+        fetchClassrooms(pageOptions);
+        const msg = `Deleted classrooms (${selectedIds.join(
+          ", "
+        )}) successfully`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -67,7 +69,7 @@ const Subject = () => {
       } else {
         return toast.warning("No row is selected", {
           position: "bottom-right",
-          autoClose: 3000,
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -89,12 +91,17 @@ const Subject = () => {
       });
     }
   };
-
   const columns = [
-    { field: "idIncrement", headerName: "ID" },
+    { field: "idIncrement", headerName: "ID", flex: 0.5 },
     {
       field: "name",
-      headerName: "Subject Name",
+      headerName: "Class Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "period",
+      headerName: "Period",
       flex: 1,
       cellClassName: "name-column--cell",
     },
@@ -106,7 +113,7 @@ const Subject = () => {
         // console.log(params, "params");
         return (
           <Button
-            onClick={() => handleEditSubject(params.id)}
+            onClick={() => handleEditClassroom(params.id)}
             startIcon={<EditIcon />}
           />
         );
@@ -115,8 +122,8 @@ const Subject = () => {
   ];
 
   return (
-    <Box m="20px ">
-      <Header title="SUBJECT" subtitle="List of Subjects" />
+    <Box m="20px">
+      <Header title="CLASSROOMS" subtitle="List of Classrooms" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -154,13 +161,13 @@ const Subject = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={subject}
+          rows={classRoom}
           columns={columns}
           components={{
             Toolbar: () =>
               CustomToolbar({
                 onDelete: handleDeleteMany,
-                onAdd: () => navigate(ROUTE_PATH.CREATE_SUBJECT),
+                onAdd: () => navigate(ROUTE_PATH.CREATE_CLASSROOM),
               }),
           }}
           page={pageOptions.page - 1}
@@ -171,7 +178,7 @@ const Subject = () => {
           onPageSizeChange={(pageSize) =>
             setPageOptions({ ...pageOptions, pageSize })
           }
-          rowCount={totalSubject}
+          rowCount={totalClassRoom}
           pagination
           paginationMode="server"
           rowsPerPageOptions={[10, 25, 50]}
@@ -185,4 +192,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default ClassRoom;

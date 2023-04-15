@@ -12,10 +12,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 
-export function CustomToolbar({ onDelete }) {
+export function CustomToolbar({ onDelete, onAdd }) {
   const navigate = useNavigate();
   // const { selectedIds, setSelectedIds } = useContext(GlobalContext);
-
   return (
     <div
       style={{
@@ -32,10 +31,7 @@ export function CustomToolbar({ onDelete }) {
         </GridToolbarContainer>
       </div>
       <div>
-        <Button
-          startIcon={<AddIcon />}
-          onClick={() => navigate(ROUTE_PATH.CREATE_STUDENT)}
-        >
+        <Button startIcon={<AddIcon />} onClick={onAdd}>
           Add
         </Button>
         <Button startIcon={<DeleteIcon />} onClick={onDelete}>

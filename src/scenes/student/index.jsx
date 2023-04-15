@@ -50,19 +50,34 @@ const Student = () => {
 
   const handleDeleteMany = async () => {
     try {
-      await Promise.all(selectedIds.map((id) => StudentAPI.deleteStudent(id)));
-      fetchStudents(pageOptions);
-      const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
-      return toast.success(msg, {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      if (selectedIds.length > 0) {
+        await Promise.all(
+          selectedIds.map((id) => StudentAPI.deleteStudent(id))
+        );
+        fetchStudents(pageOptions);
+        const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
+        return toast.success(msg, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } else {
+        return toast.warning("No row is selected", {
+          position: "bottom-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } catch (error) {
       return toast.error("Deleted failure", {
         position: "bottom-right",
@@ -128,6 +143,15 @@ const Student = () => {
   return (
     <Box m="20px">
       <Header title="STUDENTS" subtitle="List of Students" />
+      <Box display="flex" justifyContent="left" mt="20px">
+        <input type="file" accept=".xlsx, .xls"></input>
+      </Box>
+      <Box>
+        <Button type="submit" color="secondary" variant="contained">
+          Submit
+        </Button>
+      </Box>
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -168,7 +192,11 @@ const Student = () => {
           rows={student}
           columns={columns}
           components={{
-            Toolbar: () => CustomToolbar({ onDelete: handleDeleteMany }),
+            Toolbar: () =>
+              CustomToolbar({
+                onDelete: handleDeleteMany,
+                onAdd: () => navigate(ROUTE_PATH.CREATE_STUDENT),
+              }),
           }}
           page={pageOptions.page - 1}
           pageSize={pageOptions.pageSize}

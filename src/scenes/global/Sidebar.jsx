@@ -39,6 +39,10 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const navigate = useNavigate();
+
+  const email = localStorage.getItem("email");
+  const role = localStorage.getItem("role");
+
   return (
     <Box
       sx={{
@@ -66,7 +70,7 @@ const Sidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "10px 0 0px 0",
               color: colors.grey[100],
             }}
           >
@@ -77,15 +81,40 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  Welcome
+                <Typography variant="h4" color={colors.grey[100]}>
+                  {`Welcome`}
                 </Typography>
+
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}
           </MenuItem>
+
+          {!isCollapsed && (
+            <MenuItem
+              style={{
+                color: colors.grey[100],
+              }}
+            >
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                m="0px 0 10px 15px"
+              >
+                <Typography
+                  variant="p"
+                  color={colors.grey[100]}
+                  marginBottom="8px"
+                >
+                  {`${email ?? "anonymous"}`}
+                </Typography>
+              </Box>
+            </MenuItem>
+          )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <MenuItem
@@ -120,6 +149,13 @@ const Sidebar = () => {
               title="Subject"
               to={ROUTE_PATH.SUBJECT_LIST}
               icon={<SubjectIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Classroom"
+              to={ROUTE_PATH.CLASSROOM_LIST}
+              icon={<ClassIcon />}
               selected={selected}
               setSelected={setSelected}
             />

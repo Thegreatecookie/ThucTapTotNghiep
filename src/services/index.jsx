@@ -21,5 +21,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use((response) => response.data);
 
 export { default as StudentAPI } from "./student";
+export { default as ClassRoomAPI } from "./classroom";
+export { default as SubjectAPI } from "./subject";
 
 export default instance;

@@ -4,13 +4,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
-import { StudentSchema } from "../../schemas";
-import { StudentAPI } from "../../services";
+import { SubjectSchema } from "../../schemas/Subject.schema";
+import { SubjectAPI } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 import { toast } from "react-toastify";
 
-const CreateStudent = () => {
+const CreateSubject = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const {
@@ -18,15 +18,15 @@ const CreateStudent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(StudentSchema),
+    resolver: yupResolver(SubjectSchema),
   });
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    StudentAPI.createStudent(data)
+    SubjectAPI.createSubject(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create student successfully", {
+        toast.success("Create Subject successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -35,12 +35,12 @@ const CreateStudent = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.STUDENT_LIST),
+          onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
         });
       })
       .catch((err) => {
         // Do something
-        toast.error("Create student failure", {
+        toast.error("Create Subject failure", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -55,7 +55,7 @@ const CreateStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="CREATE STUDENT" subtitle="Create a New User Profile" />
+      <Header title="CREATE SUBJECT" subtitle="Create a New Subject" />
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box
@@ -67,58 +67,14 @@ const CreateStudent = () => {
           }}
         >
           <TextField
-            id="firstName"
-            fullWidth
-            variant="filled"
-            label="First Name"
-            type="text"
-            {...register("firstName")}
-            error={!!errors?.firstName?.message}
-            helperText={errors?.firstName?.message}
-            sx={{ gridColumn: "span 2" }}
-          />
-          <TextField
-            id="lastName"
+            id="name"
             fullWidth
             variant="filled"
             type="text"
-            label="Last Name"
-            {...register("lastName")}
-            error={!!errors?.lastName?.message}
-            helperText={errors?.lastName?.message}
-            sx={{ gridColumn: "span 2" }}
-          />
-          <TextField
-            id="classRoom"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Classroom"
-            {...register("classRoom")}
-            error={!!errors?.classRoom?.message}
-            helperText={errors?.classRoom?.message}
-            sx={{ gridColumn: "span 4" }}
-          />
-          <TextField
-            id="email"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Email"
-            {...register("email")}
-            error={!!errors?.email?.message}
-            helperText={errors?.email?.message}
-            sx={{ gridColumn: "span 4" }}
-          />
-          <TextField
-            id="phone"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="Phone Number"
-            {...register("phone")}
-            error={!!errors?.phone?.message}
-            helperText={errors?.phone?.message}
+            label="Name"
+            {...register("name")}
+            error={!!errors?.name?.message}
+            helperText={errors?.name?.message}
             sx={{ gridColumn: "span 4" }}
           />
         </Box>
@@ -128,7 +84,7 @@ const CreateStudent = () => {
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.STUDENT_LIST)}
+            onClick={() => navigate(ROUTE_PATH.SUBJECT_LIST)}
           >
             Back
           </Button>
@@ -141,4 +97,4 @@ const CreateStudent = () => {
   );
 };
 
-export default CreateStudent;
+export default CreateSubject;
