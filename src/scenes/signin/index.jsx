@@ -37,6 +37,7 @@ const Signin = () => {
       .post("http://localhost:3003/account/login", data)
       .then((response) => {
         console.log(response, "RESPONSE");
+
         if (response.data.token) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("role", response.data.role);

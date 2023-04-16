@@ -124,15 +124,6 @@ const EditClassRoom = () => {
             helperText={errors?.period?.message}
             sx={{ gridColumn: "span 2" }}
           />
-          {/* <DropdownButton
-            id="dropdown-basic-button"
-            title="Dropdown button"
-            size="lg"
-          >
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton> */}
         </Box>
 
         <Box display="flex" justifyContent="end" mt="20px">
@@ -145,6 +136,7 @@ const EditClassRoom = () => {
           >
             Back
           </Button>
+
           <Button type="submit" color="secondary" variant="contained">
             Submit
           </Button>

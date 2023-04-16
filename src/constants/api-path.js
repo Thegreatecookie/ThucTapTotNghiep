@@ -20,4 +20,11 @@ export const API_PATH = {
     UPDATE: (id) => `/subject/${id}`,
     DELETE: (id) => `/subject/${id}`,
   },
+  TEACHER: {
+    GET: "/teacher",
+    CREATE: "/teacher",
+    GET_ONE_BY_ID: (id) => `/teacher/${id}`,
+    UPDATE: (id) => `/teacher/${id}`,
+    DELETE: (id) => `/teacher/${id}`,
+  },
 };

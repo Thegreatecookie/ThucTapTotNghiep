@@ -14,19 +14,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { TeacherAPI } from "../../services";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const theme = createTheme();
-  //   const [signupError, setSignupError]
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    TeacherAPI.createTeacher(data)
+      .then((res) => navigate("/login"))
+      .catch((err) => {
+        toast.error(`Sign up Fail! ${err?.response?.data}`);
+        console.error(err?.response);
+      });
   };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -52,60 +62,70 @@ const SignUp = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
+          <Box noValidate sx={{ mt: 3 }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    {...register("firstName", { required: true })}
+                    autoComplete="given-name"
+                    name="firstName"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    autoFocus
+                  />
+                  {errors.firstName?.type === "required" && (
+                    <p role="alert">First name is required</p>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    {...register("lastName", { required: true })}
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                  />
+                  {errors.lastName?.type === "required" && (
+                    <p role="alert">First name is required</p>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    {...register("email", { required: true })}
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                  />
+                  {errors.email?.type === "required" && (
+                    <p role="alert">First name is required</p>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    {...register("phone", { required: true })}
+                    fullWidth
+                    name="phone"
+                    label="Phone"
+                    id="phone"
+                  />
+                  {errors.phone?.type === "required" && (
+                    <p role="alert">First name is required</p>
+                  )}
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="phone"
-                  label="Phone"
-                  id="phone"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Submit
-            </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Submit
+              </Button>
+            </form>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href={ROUTE_PATH.SIGNIN} variant="body2">
