@@ -17,32 +17,46 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TeacherAPI } from "../../services";
 import { toast } from "react-toastify";
+import { SignUpSchema } from "../../schemas";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const SignUp = () => {
   const theme = createTheme();
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const [signupError, setSignupError] = React.useState("");
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(SignUpSchema),
+  });
+
   const onSubmit = (data) => {
+    console.log(data, "DATA");
     TeacherAPI.createTeacher(data)
-      .then((res) => navigate("/login"))
+      .then((respone) => {
+        console.log(respone, "RESPONSE");
+        setSignupError("");
+        toast.success("Create Account successfully", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          onClose: () => navigate(ROUTE_PATH.SIGNIN),
+        });
+      })
       .catch((err) => {
-        toast.error(`Sign up Fail! ${err?.response?.data}`);
-        console.error(err?.response);
+        console.log(err, "ERR");
+        const msgErr = err.response.data.message;
+        setSignupError(msgErr?.trim());
       });
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate(-1);
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,70 +76,75 @@ const SignUp = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box noValidate sx={{ mt: 3 }}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    {...register("firstName", { required: true })}
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                  {errors.firstName?.type === "required" && (
-                    <p role="alert">First name is required</p>
-                  )}
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    {...register("lastName", { required: true })}
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                  />
-                  {errors.lastName?.type === "required" && (
-                    <p role="alert">First name is required</p>
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    {...register("email", { required: true })}
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                  />
-                  {errors.email?.type === "required" && (
-                    <p role="alert">First name is required</p>
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    {...register("phone", { required: true })}
-                    fullWidth
-                    name="phone"
-                    label="Phone"
-                    id="phone"
-                  />
-                  {errors.phone?.type === "required" && (
-                    <p role="alert">First name is required</p>
-                  )}
-                </Grid>
+          <Box
+            component="form"
+            sx={{ mt: 3 }}
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  {...register("firstName")}
+                  autoComplete="off"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                  error={!!errors?.firstName?.message}
+                  helperText={errors?.firstName?.message}
+                />
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Submit
-              </Button>
-            </form>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  {...register("lastName")}
+                  autoComplete="off"
+                  fullWidth
+                  required
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  error={!!errors?.lastName?.message}
+                  helperText={errors?.lastName?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  {...register("email")}
+                  autoComplete="email"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  error={!!errors?.email?.message}
+                  helperText={errors?.email?.message}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  {...register("phone")}
+                  fullWidth
+                  autoComplete="off"
+                  name="phone"
+                  label="Phone"
+                  id="phone"
+                  error={!!errors?.phone?.message}
+                  helperText={errors?.phone?.message}
+                />
+              </Grid>
+            </Grid>
+            {signupError && <p>{signupError}</p>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Submit
+            </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href={ROUTE_PATH.SIGNIN} variant="body2">
