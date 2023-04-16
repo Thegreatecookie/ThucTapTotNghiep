@@ -74,7 +74,7 @@ const SignUp = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign up your account
           </Typography>
           <Box
             component="form"
@@ -126,6 +126,7 @@ const SignUp = () => {
               <Grid item xs={12}>
                 <TextField
                   {...register("phone")}
+                  required
                   fullWidth
                   autoComplete="off"
                   name="phone"
