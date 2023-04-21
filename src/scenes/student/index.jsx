@@ -107,14 +107,20 @@ const Student = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
+      field: "idStudent",
+      headerName: "ID Student",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
       field: "email",
       headerName: "Email",
+      flex: 2,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "phone",
+      headerName: "Phone Number",
       flex: 1,
       cellClassName: "name-column--cell",
     },
@@ -140,14 +146,65 @@ const Student = () => {
     },
   ];
 
+  const [fileUpload, setFileUpload] = useState();
+  const handleChangeImportExcel = (e) => {
+    console.log(e);
+    setFileUpload(e.target?.files[0]);
+  };
+
+  const handleSubmitExcel = () => {
+    if (fileUpload) {
+      const formData = new FormData();
+      formData.append("excelFile", fileUpload);
+
+      StudentAPI.importStudentsFromExcel(formData)
+        .then((res) => {
+          console.log(res, "RES EXCEL");
+          fetchStudents(pageOptions);
+          toast.success("Import successfully", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        })
+        .catch((err) => {
+          console.log(err, "ERRROR IMPORT");
+          toast.error("Import failure", {
+            position: "bottom-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        });
+    }
+  };
+
   return (
     <Box m="20px">
       <Header title="STUDENTS" subtitle="List of Students" />
       <Box display="flex" justifyContent="left" mt="20px">
-        <input type="file" accept=".xlsx, .xls"></input>
+        <input
+          type="file"
+          accept=".xlsx, .xls"
+          onChange={handleChangeImportExcel}
+        />
       </Box>
       <Box>
-        <Button type="submit" color="secondary" variant="contained">
+        <Button
+          type="submit"
+          color="secondary"
+          variant="contained"
+          onClick={handleSubmitExcel}
+        >
           Submit
         </Button>
       </Box>

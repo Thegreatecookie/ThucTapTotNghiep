@@ -89,6 +89,17 @@ const CreateStudent = () => {
             sx={{ gridColumn: "span 2" }}
           />
           <TextField
+            id="idStudent"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="ID Student"
+            {...register("idStudent")}
+            error={!!errors?.idStudent?.message}
+            helperText={errors?.idStudent?.message}
+            sx={{ gridColumn: "span 4" }}
+          />
+          <TextField
             id="classRoom"
             fullWidth
             variant="filled"

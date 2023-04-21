@@ -28,10 +28,12 @@ const EditStudent = () => {
       classRoom: "classRoom",
       email: "email",
       phone: "phone",
+      idStudent: "idStudent",
     },
   });
 
   const navigate = useNavigate();
+
   const onSubmit = (data) => {
     console.log(data, "DATA");
     StudentAPI.updateStudent(id, data)
@@ -67,10 +69,11 @@ const EditStudent = () => {
     StudentAPI.getStudentById(id)
       .then((res) => {
         console.log(res, "GET ONE RES");
-        const { classRoom, email, firstName, lastName, phone } = res;
+        const { idStudent, classRoom, email, firstName, lastName, phone } = res;
         setValue("firstName", firstName, {
           shouldValidate: true,
         });
+        setValue("idStudent", idStudent, { shouldValidate: true });
         setValue("classRoom", classRoom, { shouldValidate: true });
         setValue("email", email, { shouldValidate: true });
         setValue("lastName", lastName, { shouldValidate: true });
@@ -135,12 +138,25 @@ const EditStudent = () => {
             sx={{ gridColumn: "span 4" }}
           />
           <TextField
+            id="idStudent"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="ID Student (Not allowed to change)"
+            {...register("idStudent")}
+            disabled
+            error={!!errors?.idStudent?.message}
+            helperText={errors?.idStudent?.message}
+            sx={{ gridColumn: "span 4" }}
+          />
+          <TextField
             id="email"
             fullWidth
             variant="filled"
             type="text"
-            label="Email"
+            label="Email (Not allowed to change)"
             {...register("email")}
+            disabled
             error={!!errors?.email?.message}
             helperText={errors?.email?.message}
             sx={{ gridColumn: "span 4" }}

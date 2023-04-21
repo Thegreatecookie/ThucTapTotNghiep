@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./scenes/dashboard";
-import Notification from "./scenes/notification";
 import Student from "./scenes/student/index";
 import CreateStudent from "./scenes/student/createStudent";
 import EditStudent from "./scenes/student/editStudent";
@@ -66,10 +65,6 @@ function App() {
                 <Route
                   path={ROUTE_PATH.EDIT_CLASSROOM}
                   element={<EditClassroom />}
-                />
-                <Route
-                  path={ROUTE_PATH.NOTIFICATION_LIST}
-                  element={<Notification />}
                 />
               </Route>
             </Route>

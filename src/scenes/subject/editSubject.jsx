@@ -8,8 +8,6 @@ import { SubjectSchema } from "../../schemas";
 import { SubjectAPI } from "../../services";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { tokens } from "../../theme";
-import { useTheme } from "@mui/material";
 import { ROUTE_PATH } from "../../constants";
 
 const EditSubject = () => {
@@ -30,8 +28,6 @@ const EditSubject = () => {
   });
 
   const navigate = useNavigate();
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   const onSubmit = (data) => {
     console.log(data, "DATA");

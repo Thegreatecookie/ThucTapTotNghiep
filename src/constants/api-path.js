@@ -2,6 +2,7 @@ export const API_PATH = {
   STUDENT: {
     GET: "/student",
     CREATE: "/student",
+    IMPORT_EXCEL: "/student/import-by-excel",
     GET_ONE_BY_ID: (id) => `/student/${id}`,
     UPDATE: (id) => `/student/${id}`,
     DELETE: (id) => `/student/${id}`,

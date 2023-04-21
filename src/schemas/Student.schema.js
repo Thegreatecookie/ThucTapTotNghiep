@@ -10,4 +10,5 @@ export const StudentSchema = yup.object().shape({
     .matches(phoneRegExp, "Phone number is not valid")
     .required("required"),
   classRoom: yup.string().required("required"),
+  idStudent: yup.string().required("required"),
 });

@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import { ClassRoomAPI } from "../../services";
 import React, { useEffect, useState } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const ClassRoom = () => {
   const [classRoom, setClassRoom] = useState([]);
   const [totalClassRoom, setTotalClassRoom] = useState(0);
@@ -25,6 +26,8 @@ const ClassRoom = () => {
   const handleEditClassroom = (id) => {
     navigate(ROUTE_PATH.EDIT_CLASSROOM, { state: { id } });
   };
+
+  const handleShowStudent = () => {};
 
   const fetchClassrooms = (pageOptions) => {
     ClassRoomAPI.getClassRoom(pageOptions).then((res) => {
@@ -108,14 +111,20 @@ const ClassRoom = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 90,
+      width: 130,
       renderCell: (params) => {
         // console.log(params, "params");
         return (
-          <Button
-            onClick={() => handleEditClassroom(params.id)}
-            startIcon={<EditIcon />}
-          />
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleEditClassroom(params.id)}
+              startIcon={<EditIcon />}
+            />
+            <Button
+              onClick={() => handleShowStudent(params.id)}
+              startIcon={<AccountCircleIcon />}
+            />
+          </Box>
         );
       },
     },

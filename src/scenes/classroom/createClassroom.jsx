@@ -26,6 +26,7 @@ const CreateClassroom = () => {
   } = useForm({
     resolver: yupResolver(ClassRoomSchema),
   });
+  
   const [subject, setSubject] = useState([]);
 
   const fetchSubjects = (pageOptions) => {
@@ -43,34 +44,34 @@ const CreateClassroom = () => {
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    // ClassRoomAPI.CreateClassroom(data)
-    //   .then((res) => {
-    //     console.log(res, "CREATE RES");
-    //     toast.success("Create ClassRoom successfully", {
-    //       position: "bottom-right",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "colored",
-    //       onClose: () => navigate(ROUTE_PATH.CLASSROOM_LIST),
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     // Do something
-    //     toast.error("Create ClassRoom failure", {
-    //       position: "bottom-right",
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //       theme: "colored",
-    //     });
-    //   });
+    ClassRoomAPI.createClassRoom(data)
+      .then((res) => {
+        console.log(res, "CREATE RES");
+        toast.success("Create ClassRoom successfully", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          onClose: () => navigate(ROUTE_PATH.CLASSROOM_LIST),
+        });
+      })
+      .catch((err) => {
+        // Do something
+        toast.error("Create ClassRoom failure", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
 
   useEffect(() => {
