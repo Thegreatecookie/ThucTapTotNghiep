@@ -23,8 +23,23 @@ const Subject = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const handleEditSubject = (id) =>
-    navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
+  const role = localStorage.getItem("role");
+
+  const handleEditSubject = (id) => {
+    if (role == "admin") navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
+    else {
+      return toast.error("Contact Admin To Change", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
 
   const fetchSubjects = (pageOptions) => {
     SubjectAPI.getSubject(pageOptions).then((res) => {
@@ -46,6 +61,22 @@ const Subject = () => {
 
   console.log(subject, "SUBJECT");
 
+  const handleAddSubject = () => {
+    if (role == "admin") navigate(ROUTE_PATH.CREATE_SUBJECT);
+    else {
+      return toast.error("Contact Admin To Add", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+  
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
@@ -77,7 +108,8 @@ const Subject = () => {
         });
       }
     } catch (error) {
-      return toast.error("Deleted failure", {
+      if(role =="teacher")
+      return toast.error("Contact Admin to Delete", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -87,7 +119,7 @@ const Subject = () => {
         progress: undefined,
         theme: "colored",
       });
-    }
+      }
   };
 
   const columns = [
@@ -160,7 +192,7 @@ const Subject = () => {
             Toolbar: () =>
               CustomToolbar({
                 onDelete: handleDeleteMany,
-                onAdd: () => navigate(ROUTE_PATH.CREATE_SUBJECT),
+                onAdd: handleAddSubject,
               }),
           }}
           page={pageOptions.page - 1}
