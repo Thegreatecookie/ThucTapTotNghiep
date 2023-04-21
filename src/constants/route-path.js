@@ -6,7 +6,6 @@ export const ROUTE_PATH = {
   SUBJECT_LIST: "/subject",
   EDIT_SUBJECT: "/subject/edit",
   CREATE_SUBJECT: "/subject/create",
-  NOTIFICATION_LIST: "/notification",
   SIGNIN: "/signin",
   SIGNUP: "/signup",
   CLASSROOM_LIST: "/classroom",

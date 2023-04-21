@@ -125,7 +125,7 @@ const Sidebar = () => {
               onClick={() => {
                 setSelected("Signout");
                 localStorage.removeItem("token");
-                navigate("/signin");
+                navigate(ROUTE_PATH.SIGNIN);
               }}
               icon={<MeetingRoomOutlinedIcon />}
             >
@@ -133,7 +133,7 @@ const Sidebar = () => {
             </MenuItem>
             <Item
               title="Dashboard"
-              to="/dashboard"
+              to={ROUTE_PATH.DASHBOARD}
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -163,13 +163,6 @@ const Sidebar = () => {
               title="Student"
               to={ROUTE_PATH.STUDENT_LIST}
               icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Notification"
-              to={ROUTE_PATH.NOTIFICATION_LIST}
-              icon={<NotificationsNoneIcon />}
               selected={selected}
               setSelected={setSelected}
             />
