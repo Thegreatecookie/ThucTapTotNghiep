@@ -82,7 +82,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h4" color={colors.grey[100]}>
-                  {`Welcome`}
+                  {`Welcome`} {`${role ?? "anonymous"}`}
                 </Typography>
 
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -132,6 +132,7 @@ const Sidebar = () => {
               <Typography>Signout</Typography>
             </MenuItem>
             <Item
+              
               title="Dashboard"
               to={ROUTE_PATH.DASHBOARD}
               icon={<HomeOutlinedIcon />}
