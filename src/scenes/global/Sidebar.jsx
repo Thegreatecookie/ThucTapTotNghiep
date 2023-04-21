@@ -173,6 +173,55 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+             <Item
+              title="Notification"
+              to="/notification"
+              icon={<NotificationsNoneIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Form"
+              to="/form"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="RegisterGroups"
+              to="/RegisterGroups"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Item
+              title="Notification Teacher"
+              to="/notificationTeacher"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Item
+              title="SendNotiTeacher"
+              to="/SendNotiTeacher"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Item
+              title="sendNotiStudent"
+              to="/sendNotiStudent"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Item
+              title="Comment"
+              to="/comment"
+              icon={<PersonOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
           </Box>
         </Menu>
       </ProSidebar>
