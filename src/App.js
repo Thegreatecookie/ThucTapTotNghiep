@@ -78,7 +78,7 @@ function App() {
               <Route path={ROUTE_PATH.TEACHER_NOTIFY} element={<NotificationTeacher />} />
               <Route path={ROUTE_PATH.TEACHER_SEND} element={<SendNotiTeacher/>} />
               <Route path={ROUTE_PATH.STUDENT_SEND} element={<SendNotiStudent/>} />
-              <Route path="/comment" element={<Comment/>} />
+              <Route path={ROUTE_PATH.COMMENT} element={<Comment/>} />
               </Route>
             </Route>
             <Route path={ROUTE_PATH.SIGNIN} element={<Signin />} />

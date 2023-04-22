@@ -1,14 +1,65 @@
-
+import React, { useEffect, useState } from "react";
 import '../../index.css'
 import Header from "../../components/Header";
 import { Box, Button, TextField, Autocomplete } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { ClassRoomAPI } from "../../services";
+import { tokens } from "../../theme";
+import { ROUTE_PATH } from "../../constants";
+import axios from 'axios';
+import { toast } from "react-toastify";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 
 const RegisterGroups = () => {
+
+  const onSubmit = (data) => {
+    console.log(data, "DATA");
+    ClassRoomAPI.createClassRoom(data)
+      .then((res) => {
+        console.log(res, "CREATE RES");
+        toast.success("Create group successfully", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((err) => {
+        // Do something
+        toast.error("Create groups failure", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
+
+  let [responseData, setResponseData] = React.useState();
+  const fetchData = (e) => {
+    e.preventDefault()
+    ClassRoomAPI.getData()
+    .then((response)=>{
+        setResponseData(response.data)
+        console.log(response)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
+
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
     const handleFormSubmit = (values) => {
@@ -19,8 +70,7 @@ const RegisterGroups = () => {
  return( <Box m="20px">
  <Header title="RegisterGroups" subtitle="dkn" />
 
- <Formik
-   onSubmit={handleFormSubmit}
+ {/* <Formik
    initialValues={initialValues}
    validationSchema={checkoutSchema}
  >
@@ -32,7 +82,7 @@ const RegisterGroups = () => {
      handleChange,
      handleSubmit,
    }) => (
-     <form onSubmit={handleSubmit}>
+     <form onSubmit={handleSubmit(onSubmit)}>
        <Box
          display="grid"
          gap="30px"
@@ -111,32 +161,32 @@ const RegisterGroups = () => {
        </Box>
      </form>
    )}
- </Formik>
+ </Formik> */}
 </Box>);
 
   
 };
 
-const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
-  contact: yup
-    .string()
-    .required("required"),
-  address1: yup.string().required("required"),
-  address2: yup.string().required("required"),
-});
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
+// const checkoutSchema = yup.object().shape({
+//   firstName: yup.string().required("required"),
+//   lastName: yup.string().required("required"),
+//   email: yup.string().email("invalid email").required("required"),
+//   contact: yup
+//     .string()
+//     .required("required"),
+//   address1: yup.string().required("required"),
+//   address2: yup.string().required("required"),
+// });
+// const initialValues = {
+//   firstName: "",
+//   lastName: "",
+//   email: "",
   
-};
+// };
 
 
-const optionss=['English','Developer']
-const options = ['Steven', 'MaiChie']
+// const optionss=['English','Developer']
+// const options = ['Steven', 'MaiChie']
 
 
 export default RegisterGroups;

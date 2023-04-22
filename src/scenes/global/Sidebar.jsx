@@ -167,27 +167,9 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Notification"
-              to={ROUTE_PATH.NOTIFICATION_LIST}
-              icon={<NotificationsNoneIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-             <Item
-              title="Notification"
-              to="/notification"
-              icon={<NotificationsNoneIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+           
+            
+            
             <Item
               title="RegisterGroups"
               to={ROUTE_PATH.REGISTER_GROUP}
