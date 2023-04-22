@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { CommentSection } from "react-comments-section";
-import 'react-comments-section/dist/index.css'
+// import 'react-comments-section/dist/index.css'
 
 class Comment extends PureComponent {
     state = {

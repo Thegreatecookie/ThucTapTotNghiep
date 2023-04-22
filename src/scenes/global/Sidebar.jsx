@@ -11,9 +11,10 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SubjectIcon from "@mui/icons-material/Subject";
 import ClassIcon from "@mui/icons-material/Class";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
-import { Remove } from "@mui/icons-material";
+// import { Remove } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -41,7 +42,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const email = localStorage.getItem("email");
-  const role = localStorage.getItem("role");
+  // const role = localStorage.getItem("role");
 
   return (
     <Box
@@ -189,35 +190,35 @@ const Sidebar = () => {
             />
             <Item
               title="RegisterGroups"
-              to="/RegisterGroups"
+              to={ROUTE_PATH.REGISTER_GROUP}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
              <Item
               title="Notification Teacher"
-              to="/notificationTeacher"
+              to={ROUTE_PATH.TEACHER_NOTIFY}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
              <Item
               title="SendNotiTeacher"
-              to="/SendNotiTeacher"
+              to={ROUTE_PATH.TEACHER_SEND}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
              <Item
               title="sendNotiStudent"
-              to="/sendNotiStudent"
+              to={ROUTE_PATH.STUDENT_SEND}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
              <Item
               title="Comment"
-              to="/comment"
+              to={ROUTE_PATH.COMMENT}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

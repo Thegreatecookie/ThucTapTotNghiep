@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./scenes/dashboard";
-import Notification from "./scenes/notification";
+
 import Student from "./scenes/student/index";
 import CreateStudent from "./scenes/student/createStudent";
 import EditStudent from "./scenes/student/editStudent";
@@ -11,6 +11,12 @@ import Signin from "./scenes/signin";
 import Classroom from "./scenes/classroom/index";
 import CreateClassroom from "./scenes/classroom/createClassroom";
 import EditClassroom from "./scenes/classroom/editClassroom";
+import RegisterGroups from "./scenes/RegisterGroups";
+import NotificationTeacher from "./scenes/notificationTeacher";
+import SendNotiTeacher from "./scenes/SendNotiTeacher";
+import SendNotiStudent from "./scenes/sendNotiStudent";
+import Comment from "./scenes/comment";
+
 
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -67,10 +73,12 @@ function App() {
                   path={ROUTE_PATH.EDIT_CLASSROOM}
                   element={<EditClassroom />}
                 />
-                <Route
-                  path={ROUTE_PATH.NOTIFICATION_LIST}
-                  element={<Notification />}
-                />
+               
+              <Route path={ROUTE_PATH.REGISTER_GROUP} element={<RegisterGroups />} />
+              <Route path={ROUTE_PATH.TEACHER_NOTIFY} element={<NotificationTeacher />} />
+              <Route path={ROUTE_PATH.TEACHER_SEND} element={<SendNotiTeacher/>} />
+              <Route path={ROUTE_PATH.STUDENT_SEND} element={<SendNotiStudent/>} />
+              <Route path="/comment" element={<Comment/>} />
               </Route>
             </Route>
             <Route path={ROUTE_PATH.SIGNIN} element={<Signin />} />
