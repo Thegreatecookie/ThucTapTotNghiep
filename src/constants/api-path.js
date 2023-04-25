@@ -21,11 +21,18 @@ export const API_PATH = {
     UPDATE: (id) => `/subject/${id}`,
     DELETE: (id) => `/subject/${id}`,
   },
+  CLASSROOMSTUDENT: {
+    DELETE: (id) => `/classroom-student/${id}`,
+  },
   TEACHER: {
     GET: "/teacher",
     CREATE: "/teacher",
     GET_ONE_BY_ID: (id) => `/teacher/${id}`,
     UPDATE: (id) => `/teacher/${id}`,
     DELETE: (id) => `/teacher/${id}`,
+  },
+  ACCOUNT: {
+    LOGIN: "/account/login",
+    CHANGEPASS: "/account/change-password",
   },
 };

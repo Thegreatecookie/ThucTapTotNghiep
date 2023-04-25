@@ -11,4 +11,9 @@ export const ROUTE_PATH = {
   CLASSROOM_LIST: "/classroom",
   CREATE_CLASSROOM: "/classroom/create",
   EDIT_CLASSROOM: "/classroom/edit",
+  ERRORPAGE: "/404",
+  TEACHER_LIST: "/teacher",
+  EDIT_TEACHER: "/teacher/edit",
+  CHANGEPASS: "/change-password",
+  MANAGE_STUDENT: "/classroom/manage-student",
 };

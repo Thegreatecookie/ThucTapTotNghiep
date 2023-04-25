@@ -48,6 +48,8 @@ const Student = () => {
 
   console.log(student, "STUDENT");
 
+  const role = localStorage.getItem("role");
+
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {

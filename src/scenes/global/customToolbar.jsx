@@ -31,9 +31,11 @@ export function CustomToolbar({ onDelete, onAdd }) {
         </GridToolbarContainer>
       </div>
       <div>
-        <Button startIcon={<AddIcon />} onClick={onAdd}>
-          Add
-        </Button>
+        {onAdd && (
+          <Button startIcon={<AddIcon />} onClick={onAdd}>
+            Add
+          </Button>
+        )}
         <Button startIcon={<DeleteIcon />} onClick={onDelete}>
           Delete
         </Button>

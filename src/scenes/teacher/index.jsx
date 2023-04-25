@@ -1,18 +1,21 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
-import { tokens } from "../../theme";
 import Header from "../../components/Header";
+import { TeacherAPI } from "../../services";
+import { tokens } from "../../theme";
 import { CustomToolbar } from "../global/customToolbar";
 import EditIcon from "@mui/icons-material/Edit";
 import { ROUTE_PATH } from "../../constants";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts";
 import { toast } from "react-toastify";
-import { SubjectAPI } from "../../services";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
-const Subject = () => {
-  const [subject, setSubject] = useState([]);
-  const [totalSubject, setTotalSubject] = useState(0);
+const Teacher = () => {
+  const [teacher, setTeacher] = useState([]);
+  const [totalTeacher, setTotalTeacher] = useState(0);
   const [pageOptions, setPageOptions] = useState(() => ({
     page: 1,
     pageSize: 10,
@@ -23,56 +26,37 @@ const Subject = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const role = localStorage.getItem("role");
+  const handleEditTeacher = (id) =>
+    navigate(ROUTE_PATH.EDIT_TEACHER, { state: { id } });
 
-  const handleEditSubject = (id) => {
-    if (role == "admin") navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
-    else {
-      return toast.error("Contact Admin To Change", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
-  };
-
-  const fetchSubjects = (pageOptions) => {
-    SubjectAPI.getSubject(pageOptions).then((res) => {
-      const subjects =
-        res?.subjects?.map((subjectItem, index) => {
+  const fetchTeachers = (pageOptions) => {
+    TeacherAPI.getTeacher(pageOptions).then((res) => {
+      const teachers =
+        res?.teachers?.map((teacherItem, index) => {
           const idIncrement =
             index + 1 + (pageOptions.page - 1) * pageOptions.pageSize;
-          const id = subjectItem._id;
-          return { ...subjectItem, id, idIncrement };
+          const id = teacherItem._id;
+          return { ...teacherItem, id, idIncrement };
         }) ?? [];
-      setSubject(subjects);
-      setTotalSubject(res?.total ?? 0);
+      setTeacher(teachers);
+      setTotalTeacher(res?.total ?? 0);
     });
   };
 
   useEffect(() => {
-    fetchSubjects(pageOptions);
+    fetchTeachers(pageOptions);
   }, [pageOptions]);
 
-  console.log(subject, "SUBJECT");
-
-  const handleAddSubject = () => {
-    navigate(ROUTE_PATH.CREATE_SUBJECT);
-  };
+  console.log(teacher, "TEACHER");
 
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
         await Promise.all(
-          selectedIds.map((id) => SubjectAPI.deleteSubject(id))
+          selectedIds.map((id) => TeacherAPI.deleteTeacher(id))
         );
-        fetchSubjects(pageOptions);
-        const msg = `Deleted subjects (${selectedIds.join(", ")}) successfully`;
+        fetchTeachers(pageOptions);
+        const msg = `Deleted teachers (${selectedIds.join(", ")}) successfully`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -96,47 +80,64 @@ const Subject = () => {
         });
       }
     } catch (error) {
-      if (role == "teacher")
-        return toast.error("Contact Admin to Delete", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+      return toast.error("Deleted failure", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   const columns = [
-    { field: "idIncrement", headerName: "ID" },
+    { field: "idIncrement", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Subject Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "action",
-      headerName: "Action",
-      width: 90,
-      renderCell: (params) => {
-        // console.log(params, "params");
-        return (
-          <Button
-            onClick={() => handleEditSubject(params.id)}
-            startIcon={<EditIcon />}
-          />
-        );
-      },
+      field: "lastName",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 2,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "phone",
+      headerName: "Phone Number",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    // {
+    //   field: "action",
+    //   headerName: "Action",
+    //   width: 90,
+    //   renderCell: (params) => {
+    //     // console.log(params, "params");
+    //     return (
+    //       <Button
+    //         onClick={() => handleEditTeacher(params.id)}
+    //         startIcon={<EditIcon />}
+    //       />
+    //     );
+    //   },
+    // },
   ];
 
   return (
-    <Box m="20px ">
-      <Header title="SUBJECT" subtitle="List of Subjects" />
+    <Box m="20px">
+      <Header title="TEACHERS" subtitle="List of Teachers" />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -174,13 +175,12 @@ const Subject = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={subject}
+          rows={teacher}
           columns={columns}
           components={{
             Toolbar: () =>
               CustomToolbar({
                 onDelete: handleDeleteMany,
-                onAdd: role === "admin" ? handleAddSubject : null,
               }),
           }}
           page={pageOptions.page - 1}
@@ -191,7 +191,7 @@ const Subject = () => {
           onPageSizeChange={(pageSize) =>
             setPageOptions({ ...pageOptions, pageSize })
           }
-          rowCount={totalSubject}
+          rowCount={totalTeacher}
           pagination
           paginationMode="server"
           rowsPerPageOptions={[10, 25, 50]}
@@ -205,4 +205,4 @@ const Subject = () => {
   );
 };
 
-export default Subject;
+export default Teacher;
