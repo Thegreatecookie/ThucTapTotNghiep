@@ -86,16 +86,7 @@ export default function SendNotiTeacher() {
         <button onClick={sendEmail}>
         Send student
         </button>
-        <button onClick={sendEmail2}>
-        Send ClassObject
-        </button>
-        <button onClick={sendEmail3}>
-        Send Group
-        </button>
-       
-      {/* <input type="submit" value="Send student" required/>
-      <input type="submit" value="Send ClassObject" required />
-      <input type="submit" value="Send Group" required  /> */}
+
       </div>
     </form>
     </div>

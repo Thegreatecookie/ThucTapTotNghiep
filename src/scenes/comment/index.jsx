@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react'
 import { CommentSection } from "react-comments-section";
-// import 'react-comments-section/dist/index.css'
+import 'react-comments-section/dist/index.css'
 
 class Comment extends PureComponent {
+
+  email = localStorage.getItem("email");
+  
     state = {
       data: []
     }
@@ -21,7 +24,7 @@ class Comment extends PureComponent {
               currentUserImg:
                 'https://thumbs.dreamstime.com/b/default-avatar-profile-vector-user-profile-default-avatar-profile-vector-user-profile-profile-179376714.jpg',
               currentUserProfile:'',
-              currentUserFullName: 'Anh'
+              currentUserFullName: this.email
             }}
             commentData={this.state.data}
             onSubmitAction={(data) => this.onSubmitAction(data)}
