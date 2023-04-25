@@ -27,4 +27,17 @@ export const API_PATH = {
     UPDATE: (id) => `/teacher/${id}`,
     DELETE: (id) => `/teacher/${id}`,
   },
+
+  GROUP: {
+    GET: "/group",
+    CREATE: "/group",
+    GET_ONE_BY_ID: (id) => `/group/${id}`,
+    UPDATE: (id) => `/group/${id}`,
+    DELETE: (id) => `/group/${id}`,
+  },
+
+  NOTIFICATION: {
+    GET: "/notification",
+    GET_ONE_BY_ID: (id) => `/notification/${id}`,
+  }
 };

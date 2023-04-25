@@ -4,23 +4,50 @@ import Header from "../../components/Header";
 import { Box, Button, TextField, Autocomplete } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { ClassRoomAPI } from "../../services";
+import { TeacherAPI } from "../../services";
+import { GroupAPI } from "../../services";
 import { tokens } from "../../theme";
 import { ROUTE_PATH } from "../../constants";
 import axios from 'axios';
+import { GroupSchema } from "../../schemas";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 
 const RegisterGroups = () => {
 
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(GroupSchema),
+  });
+  // const [teacherData, setTeacherData] = useState([]);
+
+
+  // useEffect(()=>{
+  //   TeacherAPI.getTeacher().then((res) =>{
+  //     const teachers = res?.map((e) =>{
+  //      const name = e.firstName
+  //      return(name);
+  //    }) ?? []; setTeacherData(teachers)
+  //  // eslint-disable-next-line no-undef
+  //  });
+  // })
+
+
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    ClassRoomAPI.createClassRoom(data)
+    GroupAPI.createGroup(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create group successfully", {
+        toast.success("Create Group successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -29,11 +56,12 @@ const RegisterGroups = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          onClose: () => navigate(ROUTE_PATH.CLASSROOM_LIST),
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Create groups failure", {
+
+        toast.error("Create Group failure", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -47,41 +75,9 @@ const RegisterGroups = () => {
   };
 
 
-  let [responseData, setResponseData] = React.useState();
-  const fetchData = (e) => {
-    e.preventDefault()
-    ClassRoomAPI.getData()
-    .then((response)=>{
-        setResponseData(response.data)
-        console.log(response)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
-
-
   const isNonMobile = useMediaQuery("(min-width:600px)");
-    const handleFormSubmit = (values) => {
-        console.log(values);
-      };
-      
-
  return( <Box m="20px">
  <Header title="RegisterGroups" subtitle="dkn" />
-
- {/* <Formik
-   initialValues={initialValues}
-   validationSchema={checkoutSchema}
- >
-   {({
-     values,
-     errors,
-     touched,
-     handleBlur,
-     handleChange,
-     handleSubmit,
-   }) => (
      <form onSubmit={handleSubmit(onSubmit)}>
        <Box
          display="grid"
@@ -95,98 +91,23 @@ const RegisterGroups = () => {
            fullWidth
            variant="filled"
            type="text"
-           label="ID Group"
-           onBlur={handleBlur}
-           onChange={handleChange}
-           value={values.firstName}
-           name="firstName"
-           error={!!touched.firstName && !!errors.firstName}
-           helperText={touched.firstName && errors.firstName}
-           sx={{ gridColumn: "span 4" }}
-         />
-         
-         <TextField
-           fullWidth
-           variant="filled"
-           type="text"
            label="Name Groups"
-           onBlur={handleBlur}
-           onChange={handleChange}
-           value={values.lastName}
-           name="lastName"
-           error={!!touched.lastName && !!errors.lastName}
-           helperText={touched.lastName && errors.lastName}
+        
+          {...register("name")}
+            error={!!errors?.name?.message}
+            helperText={errors?.name?.message}
            sx={{ gridColumn: "span 4" }}
          />
-         
-         <Autocomplete disablePortal
-            id="combo-box-demo"
-            options={options}
-            sx={{ width: 300,  gridColumn: "span 4" }}
-            renderInput={(params) => <TextField {...params} label="Teacher" />}>
-
-         </Autocomplete>
-
-         <Autocomplete disablePortal
-            id="combo-box-demo"
-            options={optionss}
-            sx={{ width: 300 , gridColumn: "span 4"}}
-            renderInput={(params) => <TextField {...params} label="Subject" />}
-            
-            >
-
-         </Autocomplete>
-       
-         <TextField
-           fullWidth
-           variant="filled"
-           type="text"
-           label="Email"
-           onBlur={handleBlur}
-           onChange={handleChange}
-           value={values.email}
-           name="email"
-           error={!!touched.email && !!errors.email}
-           helperText={touched.email && errors.email}
-           sx={{ gridColumn: "span 3" }}
-         />
+        
     
-         <Button color="secondary" variant="contained" >ADD</Button>
+         <Button type="submit" color="secondary" variant="contained" >ADD</Button>
          
-       </Box>
-       <Box display="flex" justifyContent="center" mt="20px">
-         <Button type="submit" color="secondary" variant="contained" className="btn-send" >
-            Send
-         </Button>
        </Box>
      </form>
-   )}
- </Formik> */}
 </Box>);
 
   
 };
-
-// const checkoutSchema = yup.object().shape({
-//   firstName: yup.string().required("required"),
-//   lastName: yup.string().required("required"),
-//   email: yup.string().email("invalid email").required("required"),
-//   contact: yup
-//     .string()
-//     .required("required"),
-//   address1: yup.string().required("required"),
-//   address2: yup.string().required("required"),
-// });
-// const initialValues = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-  
-// };
-
-
-// const optionss=['English','Developer']
-// const options = ['Steven', 'MaiChie']
 
 
 export default RegisterGroups;

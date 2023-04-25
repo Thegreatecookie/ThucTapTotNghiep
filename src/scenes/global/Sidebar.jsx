@@ -173,7 +173,7 @@ const Sidebar = () => {
             <Item
               title="RegisterGroups"
               to={ROUTE_PATH.REGISTER_GROUP}
-              icon={<PersonOutlinedIcon />}
+              icon={<PersonOutlinedIcon/>}
               selected={selected}
               setSelected={setSelected}
             />

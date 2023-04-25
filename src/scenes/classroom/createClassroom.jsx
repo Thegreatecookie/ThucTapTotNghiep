@@ -41,6 +41,8 @@ const CreateClassroom = () => {
     });
   };
 
+  console.log(fetchSubjects)
+
   const onSubmit = (data) => {
     console.log(data, "DATA");
     // ClassRoomAPI.CreateClassroom(data)
@@ -80,7 +82,6 @@ const CreateClassroom = () => {
   return (
     <Box m="20px">
       <Header title="CREATE CLASSROOM" subtitle="Create a New Classroom" />
-
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box
           display="grid"

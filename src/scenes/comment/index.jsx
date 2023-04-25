@@ -4,9 +4,7 @@ import { CommentSection } from "react-comments-section";
 
 class Comment extends PureComponent {
     state = {
-      data: [
-       
-      ]
+      data: []
     }
   
     onSubmitAction = (data) => {

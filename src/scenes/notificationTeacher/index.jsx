@@ -1,6 +1,7 @@
-
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import { DataGrid } from '@mui/x-data-grid';
+import { NotificationAPI } from "../../services";
+
 // import { mockDataNotifications } from "../../data/mockData";
 import { Box } from "@mui/material";
 export default function NotificationTeacher() {
@@ -9,6 +10,18 @@ export default function NotificationTeacher() {
   //   rowLength: 100,
   //   maxColumns: 6,
   // });
+
+  const [teacherData, setTeacherData] = useState([]);
+
+
+    NotificationAPI.getNotification().then((res) =>{
+      const teachers = res?.map((e) =>{
+       const name = e.message
+       console.log(name);
+     }) ?? []; setTeacherData(teachers)
+
+   });
+
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -40,8 +53,7 @@ export default function NotificationTeacher() {
       valueGetter: (params) =>
         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
-
-    
+ 
   ];
   const rows = [
     { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
