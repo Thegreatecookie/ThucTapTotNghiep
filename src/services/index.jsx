@@ -26,5 +26,5 @@ export { default as SubjectAPI } from "./subject";
 export { default as TeacherAPI } from "./teacher";
 export { default as AccountAPI } from "./account";
 export { default as ClassroomStudentAPI } from "./classroom-student";
-
+export { default as PeriodAPI } from "./period";
 export default instance;

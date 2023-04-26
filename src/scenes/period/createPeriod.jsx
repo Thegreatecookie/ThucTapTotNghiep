@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
 
-const CreateSubject = () => {
+const CreatePeriod = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [createError, setCreateError] = React.useState("");
   const navigate = useNavigate();
@@ -93,4 +93,4 @@ const CreateSubject = () => {
   );
 };
 
-export default CreateSubject;
+export default CreatePeriod;

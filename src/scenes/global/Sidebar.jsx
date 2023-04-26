@@ -15,6 +15,8 @@ import { Remove } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -145,7 +147,16 @@ const Sidebar = () => {
             >
               Manage
             </Typography>
-            {(role === "admin" || role === "teacher") && (
+            {role === "admin" && (
+              <Item
+                title="Period"
+                to={ROUTE_PATH.PERIOD_LIST}
+                icon={<CalendarMonthIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {role === "admin" && (
               <Item
                 title="Subject"
                 to={ROUTE_PATH.SUBJECT_LIST}

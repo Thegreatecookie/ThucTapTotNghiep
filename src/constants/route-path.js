@@ -16,4 +16,6 @@ export const ROUTE_PATH = {
   EDIT_TEACHER: "/teacher/edit",
   CHANGEPASS: "/change-password",
   MANAGE_STUDENT: "/classroom/manage-student",
+  PERIOD_LIST: "/period",
+  CREATE_PERIOD: "/period/create",
 };

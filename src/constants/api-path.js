@@ -22,6 +22,7 @@ export const API_PATH = {
     DELETE: (id) => `/subject/${id}`,
   },
   CLASSROOMSTUDENT: {
+    CREATE: "/classroom-student/",
     DELETE: (id) => `/classroom-student/${id}`,
   },
   TEACHER: {
@@ -34,5 +35,11 @@ export const API_PATH = {
   ACCOUNT: {
     LOGIN: "/account/login",
     CHANGEPASS: "/account/change-password",
+  },
+  PERIOD: {
+    GET: "/period",
+    CREATE: "/period",
+    GET_ONE_BY_ID: (id) => `/period/${id}`,
+    DELETE: (id) => `/period/${id}`,
   },
 };
