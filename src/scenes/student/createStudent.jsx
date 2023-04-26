@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 const CreateStudent = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
+  const [createError, setCreateError] = React.useState("");
   const {
     register,
     handleSubmit,
@@ -40,16 +41,10 @@ const CreateStudent = () => {
       })
       .catch((err) => {
         // Do something
-        toast.error("Create student failure", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        console.log(err, "ERR");
+        const msgErr =
+          err.response.data.message.split(" ")[11] + " " + " bị trùng";
+        setCreateError(msgErr.trim());
       });
   };
 
@@ -133,6 +128,7 @@ const CreateStudent = () => {
             sx={{ gridColumn: "span 4" }}
           />
         </Box>
+        {createError && <p>{createError}</p>}
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"

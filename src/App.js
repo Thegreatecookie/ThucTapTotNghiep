@@ -31,6 +31,8 @@ import EditTeacher from "./scenes/teacher/editTeacher";
 import ChangePass from "./scenes/changepass";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import ManageStudent from "./scenes/classroom/manageStudent";
+import CreatePeriod from "./scenes/period/createPeriod";
+import Period from "./scenes/period";
 function App() {
   const [theme, colorMode] = useMode();
   const navigate = useNavigate();
@@ -135,6 +137,23 @@ function App() {
                     </ProtectedRoutes>
                   }
                 />
+                <Route
+                  path={ROUTE_PATH.PERIOD_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <Period />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.CREATE_PERIOD}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <CreatePeriod />
+                    </ProtectedRoutes>
+                  }
+                />
+
                 {/* <Route
                   path={ROUTE_PATH.EDIT_TEACHER}
                   element={<EditTeacher />}

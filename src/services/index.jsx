@@ -28,5 +28,5 @@ export { default as GroupAPI } from "./group";
 export { default as NotificationAPI } from "./notification";
 export { default as AccountAPI } from "./account";
 export { default as ClassroomStudentAPI } from "./classroom-student";
-
+export { default as PeriodAPI } from "./period";
 export default instance;

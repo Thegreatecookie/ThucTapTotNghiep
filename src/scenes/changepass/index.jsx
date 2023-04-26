@@ -12,6 +12,7 @@ import { PassWordSchema } from "../../schemas/password.schema";
 
 const CreateSubject = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [changeError, setChangeError] = React.useState("");
   const navigate = useNavigate();
   const {
     register,
@@ -35,21 +36,13 @@ const CreateSubject = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
         });
       })
       .catch((err) => {
         // Do something
-        toast.error("Change Password failure", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        console.log(err, "ERR");
+        const msgErr = err.response.data.message;
+        setChangeError(msgErr.trim());
       });
   };
 
@@ -89,6 +82,7 @@ const CreateSubject = () => {
             sx={{ gridColumn: "span 4" }}
           />
         </Box>
+        {changeError && <p>{changeError}</p>}
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"
