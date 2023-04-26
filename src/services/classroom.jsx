@@ -10,7 +10,6 @@ const updateClassRoom = (id, body) =>
 const createClassRoom = (body) =>
   instance.post(API_PATH.CLASSROOM.CREATE, body);
 const deleteClassRoom = (id) => instance.delete(API_PATH.CLASSROOM.DELETE(id));
-
 export default {
   getClassRoom,
   createClassRoom,

@@ -1,40 +1,32 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
-import { SubjectSchema } from "../../schemas";
-import { SubjectAPI } from "../../services";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { AccountAPI, SubjectAPI } from "../../services";
+import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
+import { toast } from "react-toastify";
+import { PassWordSchema } from "../../schemas/password.schema";
 
-const EditSubject = () => {
+const CreateSubject = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const {
-    state: { id },
-  } = useLocation();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(SubjectSchema),
-    defaultValues: {
-      name: "name",
-    },
+    resolver: yupResolver(PassWordSchema),
   });
-
-  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    SubjectAPI.updateSubject(id, data)
+    AccountAPI.changePassword(data)
       .then((res) => {
-        console.log(res, "UPDATE RES");
-        toast.success("Update Subject successfully", {
+        console.log(res, "CREATE RES");
+        toast.success("Change Password successfully", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -43,11 +35,12 @@ const EditSubject = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
         });
       })
       .catch((err) => {
         // Do something
-        toast.error("Update Subject failure", {
+        toast.error("Change Password failure", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -60,32 +53,11 @@ const EditSubject = () => {
       });
   };
 
-  useEffect(() => {
-    SubjectAPI.getSubjectById(id)
-      .then((res) => {
-        console.log(res, "GET ONE RES");
-        const { name } = res;
-        setValue("name", name, {
-          shouldValidate: true,
-        });
-      })
-      .catch((err) => {
-        // Do something
-      });
-  }, [id]);
-
-  console.log(id, "STATE id");
-
   return (
     <Box m="20px">
-      <Header title="EDIT SUBJECT" subtitle="Edit Subject Information" />
+      <Header title="CHANGE PASSWORD" />
 
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        autoComplete="off"
-      >
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box
           display="grid"
           gap="30px"
@@ -95,25 +67,35 @@ const EditSubject = () => {
           }}
         >
           <TextField
-            id="name"
+            id="password"
             fullWidth
             variant="filled"
-            label="Name"
-            {...register("name")}
-            error={!!errors?.name?.message}
-            helperText={errors?.name?.message}
+            type="text"
+            label="Current Password"
+            {...register("password")}
+            error={!!errors?.password?.message}
+            helperText={errors?.password?.message}
             sx={{ gridColumn: "span 4" }}
-            // InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            id="newPassword"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="New Password"
+            {...register("newPassword")}
+            error={!!errors?.newPassword?.message}
+            helperText={errors?.newPassword?.message}
+            sx={{ gridColumn: "span 4" }}
           />
         </Box>
-
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.SUBJECT_LIST)}
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>
@@ -126,4 +108,4 @@ const EditSubject = () => {
   );
 };
 
-export default EditSubject;
+export default CreateSubject;

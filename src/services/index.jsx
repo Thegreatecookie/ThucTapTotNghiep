@@ -10,7 +10,7 @@ instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers["Authorization"] = token;
+      config.headers["authorization"] = token;
     }
     return config;
   },
@@ -24,7 +24,9 @@ export { default as StudentAPI } from "./student";
 export { default as ClassRoomAPI } from "./classroom";
 export { default as SubjectAPI } from "./subject";
 export { default as TeacherAPI } from "./teacher";
-export { default as GroupAPI} from "./group"
-export {default as  NotificationAPI} from "./notification"
+export { default as GroupAPI } from "./group";
+export { default as NotificationAPI } from "./notification";
+export { default as AccountAPI } from "./account";
+export { default as ClassroomStudentAPI } from "./classroom-student";
 
 export default instance;

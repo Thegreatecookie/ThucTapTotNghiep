@@ -6,7 +6,6 @@ export const ROUTE_PATH = {
   SUBJECT_LIST: "/subject",
   EDIT_SUBJECT: "/subject/edit",
   CREATE_SUBJECT: "/subject/create",
-  NOTIFICATION_LIST: "/notification",
   SIGNIN: "/signin",
   SIGNUP: "/signup",
   CLASSROOM_LIST: "/classroom",
@@ -17,4 +16,8 @@ export const ROUTE_PATH = {
   TEACHER_SEND:"/teacher/send",
   REGISTER_GROUP:"/register/student",
   COMMENT:"/student/comment",
+  TEACHER_LIST: "/teacher",
+  EDIT_TEACHER: "/teacher/edit",
+  CHANGEPASS: "/change-password",
+  MANAGE_STUDENT: "/classroom/manage-student",
 };

@@ -17,19 +17,23 @@ import SendNotiTeacher from "./scenes/SendNotiTeacher";
 import SendNotiStudent from "./scenes/sendNotiStudent";
 import Comment from "./scenes/comment";
 
-
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import Signup from "./scenes/signup";
 import { Template } from "./scenes/global/Template";
 import PrivateRoutes from "./utils/PrivateRoutes";
-import { ROUTE_PATH } from "./constants";
+import { ROLES, ROUTE_PATH } from "./constants";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useNavigate } from "react-router-dom";
+import Teacher from "./scenes/teacher";
+import EditTeacher from "./scenes/teacher/editTeacher";
+import ChangePass from "./scenes/changepass";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import ManageStudent from "./scenes/classroom/manageStudent";
 function App() {
   const [theme, colorMode] = useMode();
-
+  const navigate = useNavigate();
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -43,36 +47,99 @@ function App() {
                   path={ROUTE_PATH.DASHBOARD}
                   element={<Dashboard />}
                 />
-                <Route path={ROUTE_PATH.STUDENT_LIST} element={<Student />} />
+                <Route
+                  path={ROUTE_PATH.STUDENT_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <Student />
+                    </ProtectedRoutes>
+                  }
+                />
                 <Route
                   path={ROUTE_PATH.CREATE_STUDENT}
-                  element={<CreateStudent />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <CreateStudent />
+                    </ProtectedRoutes>
+                  }
                 />
                 <Route
                   path={ROUTE_PATH.EDIT_STUDENT}
-                  element={<EditStudent />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditStudent />
+                    </ProtectedRoutes>
+                  }
                 />
-                <Route path={ROUTE_PATH.SUBJECT_LIST} element={<Subject />} />
+                <Route
+                  path={ROUTE_PATH.SUBJECT_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <Subject />
+                    </ProtectedRoutes>
+                  }
+                />
                 <Route
                   path={ROUTE_PATH.EDIT_SUBJECT}
-                  element={<EditSubject />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <EditSubject />
+                    </ProtectedRoutes>
+                  }
                 />
                 <Route
                   path={ROUTE_PATH.CREATE_SUBJECT}
-                  element={<CreateSubject />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <CreateSubject />
+                    </ProtectedRoutes>
+                  }
                 />
                 <Route
                   path={ROUTE_PATH.CLASSROOM_LIST}
-                  element={<Classroom />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <Classroom />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.MANAGE_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <ManageStudent />
+                    </ProtectedRoutes>
+                  }
                 />
                 <Route
                   path={ROUTE_PATH.CREATE_CLASSROOM}
-                  element={<CreateClassroom />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <CreateClassroom />
+                    </ProtectedRoutes>
+                  }
                 />
                 <Route
                   path={ROUTE_PATH.EDIT_CLASSROOM}
-                  element={<EditClassroom />}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditClassroom />
+                    </ProtectedRoutes>
+                  }
                 />
+                <Route
+                  path={ROUTE_PATH.TEACHER_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <Teacher />
+                    </ProtectedRoutes>
+                  }
+                />
+                {/* <Route
+                  path={ROUTE_PATH.EDIT_TEACHER}
+                  element={<EditTeacher />}
+                /> */}
+                <Route path={ROUTE_PATH.CHANGEPASS} element={<ChangePass />} />
                
               <Route path={ROUTE_PATH.REGISTER_GROUP} element={<RegisterGroups />} />
               <Route path={ROUTE_PATH.TEACHER_NOTIFY} element={<NotificationTeacher />} />

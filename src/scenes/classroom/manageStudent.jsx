@@ -1,23 +1,23 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../../theme";
-import Header from "../../components/Header";
-import { CustomToolbar } from "../global/customToolbar";
-import { ROUTE_PATH } from "../../constants";
-import { useNavigate } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
-import { toast } from "react-toastify";
-import { ClassRoomAPI } from "../../services";
 import React, { useEffect, useState } from "react";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-const ClassRoom = () => {
-  const [classRoom, setClassRoom] = useState([]);
-  const [totalClassRoom, setTotalClassRoom] = useState(0);
-  const [pageOptions, setPageOptions] = useState(() => ({
-    page: 1,
-    pageSize: 10,
-  }));
+import Header from "../../components/Header";
+import { ClassRoomAPI, ClassroomStudentAPI, StudentAPI } from "../../services";
+import { tokens } from "../../theme";
+import { CustomToolbar } from "../global/customToolbar";
+import EditIcon from "@mui/icons-material/Edit";
+import { ROUTE_PATH } from "../../constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts";
+import { toast } from "react-toastify";
+
+const ManageStudent = () => {
+  const [students, setStudents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const {
+    state: { id },
+  } = useLocation();
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -25,46 +25,20 @@ const ClassRoom = () => {
 
   const role = localStorage.getItem("role");
 
-  const handleEditClassroom = (id) => {
-    navigate(ROUTE_PATH.EDIT_CLASSROOM, { state: { id } });
+  const handleAddStudent = () => {
+    navigate(ROUTE_PATH.CREATE_STUDENT);
   };
-
-  const handleShowStudent = (id) => {
-    navigate(ROUTE_PATH.MANAGE_STUDENT, {
-      state: { id },
-    });
-  };
-
-  const fetchClassrooms = (pageOptions) => {
-    ClassRoomAPI.getClassRoom(pageOptions).then((res) => {
-      const classRooms =
-        res?.classRooms?.map((classRoomItem, index) => {
-          const idIncrement =
-            index + 1 + (pageOptions.page - 1) * pageOptions.pageSize;
-          const id = classRoomItem._id;
-          return { ...classRoomItem, id, idIncrement };
-        }) ?? [];
-      setClassRoom(classRooms);
-      setTotalClassRoom(res?.total ?? 0);
-    });
-  };
-
-  useEffect(() => {
-    fetchClassrooms(pageOptions);
-  }, [pageOptions]);
-
-  console.log(classRoom, "CLASSROOM");
 
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
         await Promise.all(
-          selectedIds.map((id) => ClassRoomAPI.deleteClassRoom(id))
+          selectedIds.map((id) =>
+            ClassroomStudentAPI.deleteClassRoomStudent(id)
+          )
         );
-        fetchClassrooms(pageOptions);
-        const msg = `Deleted classrooms (${selectedIds.join(
-          ", "
-        )}) successfully`;
+        getClassRoomById(id);
+        const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -78,7 +52,7 @@ const ClassRoom = () => {
       } else {
         return toast.warning("No row is selected", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -100,45 +74,72 @@ const ClassRoom = () => {
       });
     }
   };
+
   const columns = [
-    { field: "idIncrement", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Class Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "period",
-      headerName: "Period",
+      field: "lastName",
+      headerName: "Last Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "action",
-      headerName: "Action",
-      width: 130,
-      renderCell: (params) => {
-        console.log(params, "params");
-        return (
-          <Box display="flex" justifyContent="end">
-            <Button
-              onClick={() => handleEditClassroom(params.id)}
-              startIcon={<EditIcon />}
-            />
-            <Button
-              onClick={() => handleShowStudent(params.row._id)}
-              startIcon={<AccountCircleIcon />}
-            />
-          </Box>
-        );
-      },
+      field: "idStudent",
+      headerName: "ID Student",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 2,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "phone",
+      headerName: "Phone Number",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "classRoom",
+      headerName: "Class",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
   ];
 
+  const getClassRoomById = async (id) => {
+    try {
+      const classRoom = await ClassRoomAPI.getClassRoomById(id);
+
+      if (Array.isArray(classRoom.students) && classRoom.students.length > 0) {
+        const studentList = classRoom.students.map((i) => ({
+          ...i.r_student,
+          id: i._id,
+        }));
+        setStudents(studentList);
+      } else {
+        setStudents([]);
+      }
+    } catch (error) {
+      setStudents([]);
+    }
+  };
+
+  useEffect(() => {
+    getClassRoomById(id);
+  }, [id]);
+
   return (
     <Box m="20px">
-      <Header title="CLASSROOMS" subtitle="List of Classrooms" />
+      <Header title="STUDENTS" subtitle={`Students of classroom: ${1}`} />
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -176,29 +177,16 @@ const ClassRoom = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={classRoom}
+          rows={students}
           columns={columns}
           components={{
             Toolbar: () =>
               CustomToolbar({
                 onDelete: handleDeleteMany,
-                onAdd: () => navigate(ROUTE_PATH.CREATE_CLASSROOM),
+                onAdd: role === "teacher" ? handleAddStudent : null,
               }),
           }}
-          page={pageOptions.page - 1}
-          pageSize={pageOptions.pageSize}
-          onPageChange={(page) =>
-            setPageOptions({ ...pageOptions, page: page + 1 })
-          }
-          onPageSizeChange={(pageSize) =>
-            setPageOptions({ ...pageOptions, pageSize })
-          }
-          rowCount={totalClassRoom}
-          pagination
-          paginationMode="server"
-          rowsPerPageOptions={[10, 25, 50]}
           onSelectionModelChange={(ids) => {
-            console.log(ids, "IDS");
             setSelectedIds(ids);
           }}
         />
@@ -207,4 +195,4 @@ const ClassRoom = () => {
   );
 };
 
-export default ClassRoom;
+export default ManageStudent;

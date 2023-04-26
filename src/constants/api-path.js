@@ -2,6 +2,7 @@ export const API_PATH = {
   STUDENT: {
     GET: "/student",
     CREATE: "/student",
+    IMPORT_EXCEL: "/student/import-by-excel",
     GET_ONE_BY_ID: (id) => `/student/${id}`,
     UPDATE: (id) => `/student/${id}`,
     DELETE: (id) => `/student/${id}`,
@@ -19,6 +20,9 @@ export const API_PATH = {
     GET_ONE_BY_ID: (id) => `/subject/${id}`,
     UPDATE: (id) => `/subject/${id}`,
     DELETE: (id) => `/subject/${id}`,
+  },
+  CLASSROOMSTUDENT: {
+    DELETE: (id) => `/classroom-student/${id}`,
   },
   TEACHER: {
     GET: "/teacher",
@@ -39,5 +43,9 @@ export const API_PATH = {
   NOTIFICATION: {
     GET: "/notification",
     GET_ONE_BY_ID: (id) => `/notification/${id}`,
-  }
+  },
+  ACCOUNT: {
+    LOGIN: "/account/login",
+    CHANGEPASS: "/account/change-password",
+  },
 };

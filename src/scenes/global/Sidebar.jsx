@@ -15,7 +15,7 @@ import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 
-
+import SettingsIcon from "@mui/icons-material/Settings";
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -83,7 +83,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h4" color={colors.grey[100]}>
-                  {`Welcome`}
+                  {`Welcome`} {`${role ?? "anonymous"}`}
                 </Typography>
 
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -126,7 +126,7 @@ const Sidebar = () => {
               onClick={() => {
                 setSelected("Signout");
                 localStorage.removeItem("token");
-                navigate("/signin");
+                navigate(ROUTE_PATH.SIGNIN);
               }}
               icon={<MeetingRoomOutlinedIcon />}
             >
@@ -134,7 +134,7 @@ const Sidebar = () => {
             </MenuItem>
             <Item
               title="Dashboard"
-              to="/dashboard"
+              to={ROUTE_PATH.DASHBOARD}
               icon={<HomeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -146,31 +146,58 @@ const Sidebar = () => {
             >
               Manage
             </Typography>
-            <Item
-              title="Subject"
-              to={ROUTE_PATH.SUBJECT_LIST}
-              icon={<SubjectIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Classroom"
-              to={ROUTE_PATH.CLASSROOM_LIST}
-              icon={<ClassIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Student"
-              to={ROUTE_PATH.STUDENT_LIST}
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            {(role === "admin" || role === "teacher") && (
+              <Item
+                title="Subject"
+                to={ROUTE_PATH.SUBJECT_LIST}
+                icon={<SubjectIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {role === "admin" && (
+              <Item
+                title="Teacher"
+                to={ROUTE_PATH.TEACHER_LIST}
+                icon={<PersonOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {role === "teacher" && (
+              <Item
+                title="Student"
+                to={ROUTE_PATH.STUDENT_LIST}
+                icon={<PersonOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {role === "teacher" && (
+              <Item
+                title="Classroom"
+                to={ROUTE_PATH.CLASSROOM_LIST}
+                icon={<ClassIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )}
+            {/* {role === "teacher" && (
+              <Item
+                title="Change Information"
+                to={ROUTE_PATH.EDIT_TEACHER}
+                icon={<SettingsIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            )} */}
            
             
             
             <Item
+              title="Change Password"
+              to={ROUTE_PATH.CHANGEPASS}
+              icon={<SettingsIcon />}
               title="RegisterGroups"
               to={ROUTE_PATH.REGISTER_GROUP}
               icon={<PersonOutlinedIcon/>}

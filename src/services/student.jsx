@@ -8,6 +8,10 @@ const updateStudent = (id, body) =>
   instance.put(API_PATH.STUDENT.UPDATE(id), body);
 const createStudent = (body) => instance.post(API_PATH.STUDENT.CREATE, body);
 const deleteStudent = (id) => instance.delete(API_PATH.STUDENT.DELETE(id));
+const importStudentsFromExcel = (body) =>
+  instance.post(API_PATH.STUDENT.IMPORT_EXCEL, body, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
 export default {
   getStudent,
@@ -15,4 +19,5 @@ export default {
   getStudentById,
   updateStudent,
   deleteStudent,
+  importStudentsFromExcel,
 };
