@@ -42,7 +42,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const email = localStorage.getItem("email");
-  // const role = localStorage.getItem("role");
+  const role = localStorage.getItem("role");
 
   return (
     <Box
@@ -191,41 +191,41 @@ const Sidebar = () => {
                 setSelected={setSelected}
               />
             )} */}
-           
-            
-            
+
             <Item
               title="Change Password"
               to={ROUTE_PATH.CHANGEPASS}
               icon={<SettingsIcon />}
+            />
+            <Item
               title="RegisterGroups"
               to={ROUTE_PATH.REGISTER_GROUP}
-              icon={<PersonOutlinedIcon/>}
+              icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-             <Item
+            <Item
               title="Notification Teacher"
               to={ROUTE_PATH.TEACHER_NOTIFY}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-             <Item
+            <Item
               title="SendNotiTeacher"
               to={ROUTE_PATH.TEACHER_SEND}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-             <Item
+            <Item
               title="sendNotiStudent"
               to={ROUTE_PATH.STUDENT_SEND}
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-             <Item
+            <Item
               title="Comment"
               to={ROUTE_PATH.COMMENT}
               icon={<PersonOutlinedIcon />}
