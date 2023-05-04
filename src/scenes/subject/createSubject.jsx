@@ -7,14 +7,14 @@ import Header from "../../components/Header";
 import { SubjectSchema } from "../../schemas/Subject.schema";
 import { SubjectAPI } from "../../services";
 import { useNavigate } from "react-router-dom";
-import { ROUTE_PATH } from "../../constants";
+import { API_PATH, ROUTE_PATH } from "../../constants";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
 
 const CreateSubject = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [createError, setCreateError] = React.useState("");
+  // const [createError, setCreateError] = React.useState("");
   const navigate = useNavigate();
   const {
     register,
@@ -29,23 +29,25 @@ const CreateSubject = () => {
     SubjectAPI.createSubject(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create Subject successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
-        });
+        // toast.success("Create Subject successfully", {
+        //   position: "bottom-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        //   onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
+        // });
+        alert("Thêm môn học thành công");
       })
       .catch((err) => {
         // Do something
         console.log(err, "ERR");
-        const msgErr = err.response.data.message;
-        setCreateError(msgErr);
+        const msgErr = err.response.data.message.split("failed:")[1];
+        alert(msgErr);
+        // setCreateError(msgErr);
       });
   };
   return (
@@ -73,7 +75,7 @@ const CreateSubject = () => {
             sx={{ gridColumn: "span 4" }}
           />
         </Box>
-        {createError && <p>{createError}</p>}
+        {/* {createError && <p>{createError}</p>} */}
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"

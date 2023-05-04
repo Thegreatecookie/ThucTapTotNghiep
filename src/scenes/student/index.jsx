@@ -134,7 +134,7 @@ const Student = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Edit Info",
       width: 90,
       renderCell: (params) => {
         // console.log(params, "params");
@@ -176,16 +176,8 @@ const Student = () => {
         })
         .catch((err) => {
           console.log(err, "ERRROR IMPORT");
-          toast.error("Import failure", {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          const msgErr = err.response.data.message.split("failed:")[1];
+          alert(msgErr);
         });
     }
   };

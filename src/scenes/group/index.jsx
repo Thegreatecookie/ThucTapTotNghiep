@@ -1,19 +1,18 @@
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
-import Header from "../../components/Header";
-import { ClassRoomAPI, ClassroomStudentAPI, StudentAPI } from "../../services";
 import { tokens } from "../../theme";
+import Header from "../../components/Header";
 import { CustomToolbar } from "../global/customToolbar";
-import EditIcon from "@mui/icons-material/Edit";
 import { ROUTE_PATH } from "../../constants";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { GlobalContext } from "../../contexts";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GroupAPI } from "../../services";
+import React, { useEffect, useState } from "react";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import { useLocation } from "react-router-dom";
 
-const ManageStudent = () => {
-  const [students, setStudents] = useState([]);
+const Group = () => {
+  const [groups, setGroup] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const {
     state: { id },
@@ -23,15 +22,52 @@ const ManageStudent = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
+  // const handleEditClassroom = (id) => {
+  //   navigate(ROUTE_PATH.EDIT_CLASSROOM, { state: { id } });
+  // };
+
+  // const handleShowStudent = (id) => {
+  //   navigate(ROUTE_PATH.MANAGE_STUDENT, {
+  //     state: { id },
+  //   });
+  // };
+
+  const handleAddStudent = (id) => {
+    navigate(ROUTE_PATH.ADD_GROUPSTUDENT, {
+      state: { id },
+    });
+  };
+
+  const getGroupById = async (id) => {
+    try {
+      const group = await GroupAPI.getByClassRoomID(id);
+
+      if (Array.isArray(group) && group.length > 0) {
+        const groupList = group.map((i) => ({
+          name: i.name,
+          r_classroom: i.r_classroom,
+          id: i._id,
+        }));
+        setGroup(groupList);
+      } else {
+        setGroup([]);
+      }
+    } catch (error) {
+      setGroup([]);
+    }
+  };
+
+  useEffect(() => {
+    getGroupById(id);
+  }, [id]);
+
+  console.log(groups, "GROUP");
+
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
-        await Promise.all(
-          selectedIds.map((id) =>
-            ClassroomStudentAPI.deleteClassRoomStudent(id)
-          )
-        );
-        getClassRoomById(id);
+        await Promise.all(selectedIds.map((id) => GroupAPI.deleteGroup(id)));
+        getGroupById(id);
         const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
         return toast.success(msg, {
           position: "bottom-right",
@@ -68,72 +104,42 @@ const ManageStudent = () => {
       });
     }
   };
-
   const columns = [
     {
-      field: "firstName",
-      headerName: "First Name",
+      field: "name",
+      headerName: "Class Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "lastName",
-      headerName: "Last Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "idStudent",
-      headerName: "ID Student",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 2,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "classRoom",
-      headerName: "Class",
-      flex: 1,
-      cellClassName: "name-column--cell",
+      field: "action",
+      headerName: "Action",
+      width: 200,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
+            {/* <Button
+              onClick={() => handleEditClassroom(params.id)}
+              startIcon={<EditIcon />}
+            />
+            <Button
+              onClick={() => handleShowStudent(params.row._id)}
+              startIcon={<AccountCircleIcon />}
+            /> */}
+            <Button
+              onClick={() => handleAddStudent(params.id)}
+              startIcon={<PersonAddAltIcon />}
+            />
+          </Box>
+        );
+      },
     },
   ];
 
-  const getClassRoomById = async (id) => {
-    try {
-      const classRoom = await StudentAPI.getStudentByClassRoomId(id);
-
-      if (Array.isArray(classRoom.students) && classRoom.students.length > 0) {
-        const studentList = classRoom.students.map((i) => ({
-          ...i.r_student,
-          id: i._id,
-        }));
-        setStudents(studentList);
-      } else {
-        setStudents([]);
-      }
-    } catch (error) {
-      setStudents([]);
-    }
-  };
-
-  useEffect(() => {
-    getClassRoomById(id);
-  }, [id]);
-
   return (
     <Box m="20px">
-      <Header title="STUDENTS" subtitle={`Students of classroom: ${1}`} />
-
+      <Header title="GROUPS" subtitle="List of groups in " />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -171,7 +177,7 @@ const ManageStudent = () => {
       >
         <DataGrid
           checkboxSelection
-          rows={students}
+          rows={groups}
           columns={columns}
           components={{
             Toolbar: () =>
@@ -180,8 +186,9 @@ const ManageStudent = () => {
                 onAdd: null,
               }),
           }}
-          onSelectionModelChange={(ids) => {
-            setSelectedIds(ids);
+          onSelectionModelChange={(r_classroom) => {
+            console.log(r_classroom, "IDS");
+            setSelectedIds(r_classroom);
           }}
         />
       </Box>
@@ -189,4 +196,4 @@ const ManageStudent = () => {
   );
 };
 
-export default ManageStudent;
+export default Group;

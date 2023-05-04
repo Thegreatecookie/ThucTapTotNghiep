@@ -11,11 +11,9 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import SubjectIcon from "@mui/icons-material/Subject";
 import ClassIcon from "@mui/icons-material/Class";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
-import { Remove } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
 import SettingsIcon from "@mui/icons-material/Settings";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -147,15 +145,6 @@ const Sidebar = () => {
             >
               Manage
             </Typography>
-            {role === "admin" && (
-              <Item
-                title="Period"
-                to={ROUTE_PATH.PERIOD_LIST}
-                icon={<CalendarMonthIcon />}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            )}
             {role === "admin" && (
               <Item
                 title="Subject"

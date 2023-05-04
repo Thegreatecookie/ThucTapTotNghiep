@@ -12,7 +12,7 @@ import { PassWordSchema } from "../../schemas/password.schema";
 
 const CreateSubject = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [changeError, setChangeError] = React.useState("");
+  const [change, setChange] = React.useState("");
   const navigate = useNavigate();
   const {
     register,
@@ -27,22 +27,14 @@ const CreateSubject = () => {
     AccountAPI.changePassword(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Change Password successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        const msgSucc = res.message;
+        alert(msgSucc);
       })
       .catch((err) => {
         // Do something
         console.log(err, "ERR");
         const msgErr = err.response.data.message;
-        setChangeError(msgErr.trim());
+        alert(msgErr);
       });
   };
 
@@ -60,10 +52,9 @@ const CreateSubject = () => {
           }}
         >
           <TextField
-            id="password"
             fullWidth
             variant="filled"
-            type="text"
+            type="password"
             label="Current Password"
             {...register("password")}
             error={!!errors?.password?.message}
@@ -71,18 +62,26 @@ const CreateSubject = () => {
             sx={{ gridColumn: "span 4" }}
           />
           <TextField
-            id="newPassword"
             fullWidth
             variant="filled"
-            type="text"
+            type="password"
             label="New Password"
             {...register("newPassword")}
             error={!!errors?.newPassword?.message}
             helperText={errors?.newPassword?.message}
             sx={{ gridColumn: "span 4" }}
           />
+          <TextField
+            fullWidth
+            variant="filled"
+            type="password"
+            label="Confirm New Password"
+            {...register("confirm_newPassword")}
+            error={!!errors?.confirm_newPassword?.message}
+            helperText={errors?.confirm_newPassword?.message}
+            sx={{ gridColumn: "span 4" }}
+          />
         </Box>
-        {changeError && <p>{changeError}</p>}
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"

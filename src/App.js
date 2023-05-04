@@ -24,8 +24,11 @@ import EditTeacher from "./scenes/teacher/editTeacher";
 import ChangePass from "./scenes/changepass";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import ManageStudent from "./scenes/classroom/manageStudent";
-import CreatePeriod from "./scenes/period/createPeriod";
-import Period from "./scenes/period";
+import AddStudent from "./scenes/classroom/addStudent";
+import Group from "./scenes/group";
+import CreateGroup from "./scenes/group/createGroup";
+import AddGroupStudent from "./scenes/group/addStudent";
+import EditGroupCondition from "./scenes/group/editCondition";
 function App() {
   const [theme, colorMode] = useMode();
   const navigate = useNavigate();
@@ -41,30 +44,6 @@ function App() {
                   index
                   path={ROUTE_PATH.DASHBOARD}
                   element={<Dashboard />}
-                />
-                <Route
-                  path={ROUTE_PATH.STUDENT_LIST}
-                  element={
-                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
-                      <Student />
-                    </ProtectedRoutes>
-                  }
-                />
-                <Route
-                  path={ROUTE_PATH.CREATE_STUDENT}
-                  element={
-                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
-                      <CreateStudent />
-                    </ProtectedRoutes>
-                  }
-                />
-                <Route
-                  path={ROUTE_PATH.EDIT_STUDENT}
-                  element={
-                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
-                      <EditStudent />
-                    </ProtectedRoutes>
-                  }
                 />
                 <Route
                   path={ROUTE_PATH.SUBJECT_LIST}
@@ -87,6 +66,39 @@ function App() {
                   element={
                     <ProtectedRoutes roles={[ROLES.ADMIN]}>
                       <CreateSubject />
+                    </ProtectedRoutes>
+                  }
+                />
+
+                <Route
+                  path={ROUTE_PATH.TEACHER_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <Teacher />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.STUDENT_LIST}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <Student />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.CREATE_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <CreateStudent />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.EDIT_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditStudent />
                     </ProtectedRoutes>
                   }
                 />
@@ -115,6 +127,14 @@ function App() {
                   }
                 />
                 <Route
+                  path={ROUTE_PATH.ADD_CLASSROOMSTUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <AddStudent />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
                   path={ROUTE_PATH.EDIT_CLASSROOM}
                   element={
                     <ProtectedRoutes roles={[ROLES.TEACHER]}>
@@ -123,30 +143,37 @@ function App() {
                   }
                 />
                 <Route
-                  path={ROUTE_PATH.TEACHER_LIST}
+                  path={ROUTE_PATH.GROUP_LIST}
                   element={
-                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
-                      <Teacher />
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <Group />
                     </ProtectedRoutes>
                   }
                 />
                 <Route
-                  path={ROUTE_PATH.PERIOD_LIST}
+                  path={ROUTE_PATH.CREATE_GROUP}
                   element={
-                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
-                      <Period />
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <CreateGroup />
                     </ProtectedRoutes>
                   }
                 />
                 <Route
-                  path={ROUTE_PATH.CREATE_PERIOD}
+                  path={ROUTE_PATH.ADD_GROUPSTUDENT}
                   element={
-                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
-                      <CreatePeriod />
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <AddGroupStudent />
                     </ProtectedRoutes>
                   }
                 />
-
+                <Route
+                  path={ROUTE_PATH.GROUP_CONDITION}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditGroupCondition />
+                    </ProtectedRoutes>
+                  }
+                />
                 {/* <Route
                   path={ROUTE_PATH.EDIT_TEACHER}
                   element={<EditTeacher />}

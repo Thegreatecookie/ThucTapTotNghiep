@@ -9,7 +9,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import { ClassRoomAPI } from "../../services";
 import React, { useEffect, useState } from "react";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import GroupIcon from "@mui/icons-material/Group";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 const ClassRoom = () => {
   const [classRoom, setClassRoom] = useState([]);
   const [totalClassRoom, setTotalClassRoom] = useState(0);
@@ -23,14 +27,34 @@ const ClassRoom = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const role = localStorage.getItem("role");
-
   const handleEditClassroom = (id) => {
     navigate(ROUTE_PATH.EDIT_CLASSROOM, { state: { id } });
   };
 
   const handleShowStudent = (id) => {
     navigate(ROUTE_PATH.MANAGE_STUDENT, {
+      state: { id },
+    });
+  };
+
+  const handleAddStudent = (id) => {
+    navigate(ROUTE_PATH.ADD_CLASSROOMSTUDENT, {
+      state: { id },
+    });
+  };
+
+  const handleShowGroup = (id) => {
+    navigate(ROUTE_PATH.GROUP_LIST, {
+      state: { id },
+    });
+  };
+  const handleCreateGroup = (id) => {
+    navigate(ROUTE_PATH.CREATE_GROUP, {
+      state: { id },
+    });
+  };
+  const handleEditCondition = (id) => {
+    navigate(ROUTE_PATH.GROUP_CONDITION, {
       state: { id },
     });
   };
@@ -115,9 +139,10 @@ const ClassRoom = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "action",
-      headerName: "Action",
-      width: 130,
+      field: "editInfo",
+      headerName: "Edit Info",
+      // flex:1,
+      width: 100,
       renderCell: (params) => {
         console.log(params, "params");
         return (
@@ -126,6 +151,36 @@ const ClassRoom = () => {
               onClick={() => handleEditClassroom(params.id)}
               startIcon={<EditIcon />}
             />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "addStudent",
+      headerName: "Add Student",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleAddStudent(params.id)}
+              startIcon={<PersonAddAltIcon />}
+            />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "showStudent",
+      headerName: "Show Student",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
             <Button
               onClick={() => handleShowStudent(params.row._id)}
               startIcon={<AccountCircleIcon />}
@@ -134,6 +189,90 @@ const ClassRoom = () => {
         );
       },
     },
+    {
+      field: "showGroup",
+      headerName: "Show Group",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleShowGroup(params.id)}
+              startIcon={<GroupIcon />}
+            />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "createGroup",
+      headerName: "Create Group",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleCreateGroup(params.id)}
+              startIcon={<GroupAddIcon />}
+            />
+          </Box>
+        );
+      },
+    },
+    {
+      field: "editCondition",
+      headerName: "Edit Condition",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        console.log(params, "params");
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleEditCondition(params.id)}
+              startIcon={<FilterAltIcon />}
+            />
+          </Box>
+        );
+      },
+    },
+    // {
+    //   field: "addStudent",
+    //   headerName: "Add Student",
+    //   // flex:1,
+    //   width: 300,
+    //   renderCell: (params) => {
+    //     console.log(params, "params");
+    //     return (
+    //       <Box display="flex" justifyContent="end">
+    //         <Button
+    //           onClick={() => handleEditClassroom(params.id)}
+    //           startIcon={<EditIcon />}
+    //         />
+    //         <Button
+    //           onClick={() => handleShowStudent(params.row._id)}
+    //           startIcon={<AccountCircleIcon />}
+    //         />
+    //         <Button
+    //           onClick={() => handleAddStudent(params.id)}
+    //           startIcon={<PersonAddAltIcon />}
+    //         />
+    //         <Button
+    //           onClick={() => handleShowGroup(params.id)}
+    //           startIcon={<GroupIcon />}
+    //         />
+    //         <Button
+    //           onClick={() => handleCreateGroup(params.id)}
+    //           startIcon={<GroupAddIcon />}
+    //         />
+    //       </Box>
+    //     );
+    //   },
+    // },
   ];
 
   return (

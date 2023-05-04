@@ -21,7 +21,6 @@ import { ROUTE_PATH } from "../../constants";
 const Signin = () => {
   const theme = createTheme();
 
-  const [signinError, setSigninError] = React.useState("");
   const navigate = useNavigate();
   const {
     register,
@@ -48,7 +47,7 @@ const Signin = () => {
       .catch((err) => {
         console.log(err, "ERR");
         const msgErr = err.response.data.message.split(":")[1];
-        setSigninError(msgErr.trim());
+        alert(msgErr);
       });
   };
 
@@ -109,7 +108,6 @@ const Signin = () => {
               error={!!errors?.password?.message}
               helperText={errors?.password?.message}
             />
-            {signinError && <p>{signinError}</p>}
             <Button
               type="submit"
               fullWidth

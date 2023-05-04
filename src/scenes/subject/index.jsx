@@ -120,7 +120,7 @@ const Subject = () => {
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "Edit Info",
       width: 90,
       renderCell: (params) => {
         // console.log(params, "params");

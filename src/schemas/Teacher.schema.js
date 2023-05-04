@@ -1,12 +1,27 @@
 import * as yup from "yup";
-import { phoneRegExp } from "../constants";
-
+import { phoneRegExr } from "../constants";
+import { nameRegExr } from "../constants";
 export const TeacherSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  firstName: yup
+    .string()
+    .max(30, "Tối đa 30 ký tự")
+    .required("Nhập họ và tên lót")
+    .matches(
+      nameRegExr,
+      "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
+    ),
+  lastName: yup
+    .string()
+    .max(30, "Tối đa 30 ký tự")
+    .required("Nhập tên")
+    .matches(
+      nameRegExr,
+      "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
+    ),
+  email: yup.string().required("Nhập email").email("Đuôi email không hợp lệ"),
   phone: yup
     .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("required"),
+    .required("Nhập số điện thoại")
+    .matches(phoneRegExr, "Số điện thoại không hợp lệ")
+    .length(10, "Số điện thoại phải đúng 10 số"),
 });

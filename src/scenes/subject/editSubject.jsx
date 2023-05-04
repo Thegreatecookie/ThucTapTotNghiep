@@ -34,29 +34,32 @@ const EditSubject = () => {
     SubjectAPI.updateSubject(id, data)
       .then((res) => {
         console.log(res, "UPDATE RES");
-        toast.success("Update Subject successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        // toast.success("Update Subject successfully", {
+        //   position: "bottom-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        // });
+        alert("Sửa thông tin môn học thành công");
       })
       .catch((err) => {
         // Do something
-        toast.error("Update Subject failure", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        // toast.error("Update Subject failure", {
+        //   position: "bottom-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        // });
+        console.log(err, "ERR");
+        alert("Tên môn học đã tồn tại");
       });
   };
 

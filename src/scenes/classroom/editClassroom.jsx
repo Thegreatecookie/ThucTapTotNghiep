@@ -124,23 +124,49 @@ const EditClassRoom = () => {
             id="name"
             fullWidth
             variant="filled"
-            label="Name"
+            label="Class Name"
             {...register("name")}
             error={!!errors?.name?.message}
             helperText={errors?.name?.message}
-            sx={{ gridColumn: "span 2" }}
-            // InputLabelProps={{ shrink: true }}
+            sx={{ gridColumn: "span 4" }}
           />
-          <TextField
-            id="period"
-            fullWidth
+
+          <FormControl
+            sx={{ gridColumn: "span 4" }}
             variant="filled"
-            label="Period"
-            {...register("period")}
             error={!!errors?.period?.message}
-            helperText={errors?.period?.message}
-            sx={{ gridColumn: "span 2" }}
-          />
+          >
+            <InputLabel id="demo-simple-select-helper-label">Period</InputLabel>
+            <Controller
+              name="period"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  label="period"
+                  value={value}
+                  fullWidth
+                  onChange={onChange}
+                >
+                  <MenuItem value="Ca 1: 07:00-09:30">
+                    Ca 1: 07:00-09:30
+                  </MenuItem>
+                  <MenuItem value="Ca 2: 09:35-12:05">
+                    Ca 2: 09:35-12:05
+                  </MenuItem>
+                  <MenuItem value="Ca 3: 12:35-15:05">
+                    Ca 3: 12:35-15:05
+                  </MenuItem>
+                  <MenuItem value="Ca 4: 15:10-17:40">
+                    Ca 4: 15:10-17:40
+                  </MenuItem>
+                  <MenuItem value="Ca 5: 17:45-20:15">
+                    Ca 5: 17:45-20:15
+                  </MenuItem>
+                </Select>
+              )}
+            />
+            <FormHelperText>{errors?.period?.message}</FormHelperText>
+          </FormControl>
 
           <FormControl
             sx={{ gridColumn: "span 4" }}

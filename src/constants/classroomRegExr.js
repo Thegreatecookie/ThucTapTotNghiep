@@ -1,0 +1,1 @@
+export const classRoomRegExr = /[D]{1}[0-9]{2}[_]{1}[TH]{2}[0-9]{2}/;

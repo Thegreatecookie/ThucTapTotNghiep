@@ -12,7 +12,8 @@ const importStudentsFromExcel = (body) =>
   instance.post(API_PATH.STUDENT.IMPORT_EXCEL, body, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-
+const getStudentByClassRoomId = (id) =>
+  instance.get(API_PATH.CLASSROOM.GET_STUDENT(id));
 export default {
   getStudent,
   createStudent,
@@ -20,4 +21,5 @@ export default {
   updateStudent,
   deleteStudent,
   importStudentsFromExcel,
+  getStudentByClassRoomId,
 };
