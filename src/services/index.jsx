@@ -28,4 +28,5 @@ export { default as AccountAPI } from "./account";
 export { default as ClassroomStudentAPI } from "./classroom-student";
 export { default as PeriodAPI } from "./period";
 export { default as GroupAPI } from "./group";
+export { default as GroupStudentAPI } from "./group-student";
 export default instance;

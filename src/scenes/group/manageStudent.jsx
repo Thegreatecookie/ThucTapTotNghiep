@@ -1,20 +1,19 @@
-import Header from "../../components/Header";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import React, { useEffect, useState } from "react";
+import Header from "../../components/Header";
+import { GroupAPI, GroupStudentAPI, StudentAPI } from "../../services";
 import { tokens } from "../../theme";
 import { CustomToolbar } from "../global/customToolbar";
-import { ROUTE_PATH } from "../../constants";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { GroupAPI } from "../../services";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import EditIcon from "@mui/icons-material/Edit";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import GroupIcon from "@mui/icons-material/Group";
-const Group = () => {
-  const [groups, setGroup] = useState([]);
+import { ROUTE_PATH } from "../../constants";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../contexts";
+import { toast } from "react-toastify";
+
+const ManageGroupStudent = () => {
+  const [students, setStudents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const {
     state: { id },
@@ -24,49 +23,14 @@ const Group = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
-  const handleEditGroup = (id) => {
-    navigate(ROUTE_PATH.EDIT_GROUP, { state: { id } });
-  };
-
-  const handleShowStudent = (id) => {
-    console.log(id, "ID func");
-    navigate(ROUTE_PATH.MANAGE_GROUP_STUDENT, {
-      state: { id },
-    });
-  };
-
-  const handleAddStudent = (id) => {
-    navigate(ROUTE_PATH.ADD_GROUPSTUDENT, {
-      state: { id },
-    });
-  };
-
-  const getGroupById = async (id) => {
-    try {
-      const group = await GroupAPI.getByClassRoomID(id);
-
-      if (Array.isArray(group) && group.length > 0) {
-        const groupList = group.map((i) => ({
-          name: i.name,
-          id: i._id,
-        }));
-        setGroup(groupList);
-      } else {
-        setGroup([]);
-      }
-    } catch (error) {
-      setGroup([]);
-    }
-  };
-
-  useEffect(() => {
-    getGroupById(id);
-  }, [id]);
-
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
-        await Promise.all(selectedIds.map((id) => GroupAPI.deleteGroup(id)));
+        await Promise.all(
+          selectedIds.map((id) =>
+            GroupStudentAPI.deleteGroupStudent(id)
+          )
+        );
         getGroupById(id);
         const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
         return toast.success(msg, {
@@ -104,67 +68,85 @@ const Group = () => {
       });
     }
   };
+
   const columns = [
     {
-      field: "name",
-      headerName: "Class Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "editInfo",
-      headerName: "Edit Info",
-      // flex:1,
-      width: 100,
-      renderCell: (params) => {
-        return (
-          <Box display="flex" justifyContent="end">
-            <Button
-              onClick={() => handleEditGroup(params.id)}
-              startIcon={<EditIcon />}
-            />
-          </Box>
-        );
-      },
+      field: "lastName",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "showStudent",
-      headerName: "Show Student",
-      // flex:1,
-      width: 100,
-      renderCell: (params) => {
-        console.log(params, "PARAMS");
-        return (
-          <Box display="flex" justifyContent="end">
-            <Button
-              onClick={() => handleShowStudent(params.row.id)}
-              startIcon={<AccountCircleIcon />}
-            />
-          </Box>
-        );
-      },
+      field: "idStudent",
+      headerName: "ID Student",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
     {
-      field: "addStudent",
-      headerName: "Add Student",
-      width: 100,
-      renderCell: (params) => {
-        // console.log(params, "params");
-        return (
-          <Box display="flex" justifyContent="end">
-            <Button
-              onClick={() => handleAddStudent(params.id)}
-              startIcon={<PersonAddAltIcon />}
-            />
-          </Box>
-        );
-      },
+      field: "email",
+      headerName: "Email",
+      flex: 2,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "phone",
+      headerName: "Phone Number",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "classRoom",
+      headerName: "Class",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      flex: 1,
+      cellClassName: "name-column--cell",
     },
   ];
 
+  const getGroupById = async (id) => {
+    try {
+      const group = await GroupAPI.getStudentinGroup(id);
+      console.log(group, "GROUP");
+      if (Array.isArray(group.students) && group.students.length > 0) {
+        const studentList = group.students.map((i) => ({
+          ...i,
+          id: i._id,
+          role:i.role,
+          firstName:i.r_student.firstName,
+          lastName:i.r_student.lastName,
+          idStudent:i.r_student.idStudent,
+          email:i.r_student.email,
+          phone:i.r_student.phone,
+          classRoom:i.r_student.classRoom,
+        }));
+        setStudents(studentList);
+      } else {
+        setStudents([]);
+      }
+    } catch (error) {
+      setStudents([]);
+    }
+  };
+
+  useEffect(() => {
+    getGroupById(id);
+  }, [id]);
+
   return (
     <Box m="20px">
-      <Header title="GROUPS" subtitle="List of groups in " />
+      <Header title="STUDENTS" subtitle={`Students of classroom: ${1}`} />
+
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -202,8 +184,7 @@ const Group = () => {
       >
         <DataGrid
           checkboxSelection
-          // disableRowSelectionOnClick
-          rows={groups}
+          rows={students}
           columns={columns}
           components={{
             Toolbar: () =>
@@ -214,7 +195,6 @@ const Group = () => {
           }}
           onSelectionModelChange={(ids) => {
             setSelectedIds(ids);
-            console.log(ids, "GR index");
           }}
         />
       </Box>
@@ -222,4 +202,4 @@ const Group = () => {
   );
 };
 
-export default Group;
+export default ManageGroupStudent;

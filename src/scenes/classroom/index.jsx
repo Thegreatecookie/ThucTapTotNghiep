@@ -1,19 +1,19 @@
+import Header from "../../components/Header";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
 import { CustomToolbar } from "../global/customToolbar";
 import { ROUTE_PATH } from "../../constants";
 import { useNavigate } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import { ClassRoomAPI } from "../../services";
 import React, { useEffect, useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import GroupIcon from "@mui/icons-material/Group";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 const ClassRoom = () => {
   const [classRoom, setClassRoom] = useState([]);
   const [totalClassRoom, setTotalClassRoom] = useState(0);
@@ -32,7 +32,7 @@ const ClassRoom = () => {
   };
 
   const handleShowStudent = (id) => {
-    navigate(ROUTE_PATH.MANAGE_STUDENT, {
+    navigate(ROUTE_PATH.MANAGE_CLASSROOM_STUDENT, {
       state: { id },
     });
   };
@@ -144,7 +144,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -161,7 +160,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -178,7 +176,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -195,7 +192,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -212,7 +208,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -229,7 +224,6 @@ const ClassRoom = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -337,8 +331,8 @@ const ClassRoom = () => {
           paginationMode="server"
           rowsPerPageOptions={[10, 25, 50]}
           onSelectionModelChange={(ids) => {
-            console.log(ids, "IDS");
             setSelectedIds(ids);
+            console.log(ids)
           }}
         />
       </Box>

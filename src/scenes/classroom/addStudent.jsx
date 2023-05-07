@@ -126,7 +126,7 @@ const AddStudent = () => {
             >
               <MenuItem value="">-- Choose Role --</MenuItem>
               <MenuItem value="member">MEMBER</MenuItem>
-              <MenuItem value="leader">LEADER</MenuItem>
+              <MenuItem value="class_monitor">CLASS MONITOR</MenuItem>
             </Select>
             <FormHelperText>{errors?.role?.message}</FormHelperText>
           </FormControl>
@@ -156,6 +156,21 @@ const AddStudent = () => {
             <FormHelperText>{errors?.r_student?.message}</FormHelperText>
           </FormControl>
         </Box>
+
+        <Box display="flex" justifyContent="end" mt="20px">
+          <Button
+            type="button"
+            color="secondary"
+            variant="contained"
+            sx={{ marginRight: "12px" }}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+          <Button type="submit" color="secondary" variant="contained">
+            Submit
+          </Button>
+        </Box>
         <Box
           visibility="hidden"
           display="grid"
@@ -175,20 +190,6 @@ const AddStudent = () => {
             {...register("r_classroom")}
             sx={{ gridColumn: "span 4" }}
           />
-        </Box>
-        <Box display="flex" justifyContent="end" mt="20px">
-          <Button
-            type="button"
-            color="secondary"
-            variant="contained"
-            sx={{ marginRight: "12px" }}
-            onClick={() => navigate(-1)}
-          >
-            Back
-          </Button>
-          <Button type="submit" color="secondary" variant="contained">
-            Submit
-          </Button>
         </Box>
       </Box>
     </Box>

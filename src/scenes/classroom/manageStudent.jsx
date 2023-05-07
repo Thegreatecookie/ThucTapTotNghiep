@@ -12,13 +12,13 @@ import { useContext } from "react";
 import { GlobalContext } from "../../contexts";
 import { toast } from "react-toastify";
 
-const ManageStudent = () => {
+const ManageClassroomStudent = () => {
   const [students, setStudents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const {
     state: { id },
   } = useLocation();
-
+  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
@@ -106,16 +106,22 @@ const ManageStudent = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
+    {
+      field: "role",
+      headerName: "Role",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
   ];
 
-  const getClassRoomById = async (id) => {
+  const getClassRoomById = async (id) => {  
     try {
       const classRoom = await StudentAPI.getStudentByClassRoomId(id);
-
       if (Array.isArray(classRoom.students) && classRoom.students.length > 0) {
         const studentList = classRoom.students.map((i) => ({
           ...i.r_student,
           id: i._id,
+          role: i.role,
         }));
         setStudents(studentList);
       } else {
@@ -132,7 +138,7 @@ const ManageStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="STUDENTS" subtitle={`Students of classroom: ${1}`} />
+      <Header title="STUDENTS" subtitle={`Students of classroom`} />
 
       <Box
         m="40px 0 0 0"
@@ -189,4 +195,4 @@ const ManageStudent = () => {
   );
 };
 
-export default ManageStudent;
+export default ManageClassroomStudent;

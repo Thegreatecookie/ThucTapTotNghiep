@@ -40,10 +40,17 @@ export const API_PATH = {
   GROUP: {
     GET_BY_ID_CLASROOM: (id) => `/group/classroom/${id}`,
     GET_CONDITION_GROUP: (id) => `/group/conditionToCreateGroup/${id}`,
-    GET_STUDENT: (id) => `/group/students/${id}`,
+    GET_STUDENT_IN_GROUP: (id) => `/group/student-group/${id}`,
     CREATE: "/group",
     ADD_STUDENT: "/group/students/",
     DELETE_GROUP: (id) => `/group/${id}`,
     UPDATE_CONDITION_GROUP: (id) => `/group/conditionToCreateGroup/${id}`,
+    GET_STUDENT_IN_CLASSROOM: (id) => `/group/student-classroom/${id}`,
+    GET_ONE_BY_ID: (id) => `/group/${id}`,
+    UPDATE:(id) => `/group/${id}`,
   },
+  GROUPSTUDENT:{
+    CREATE: "/group-student",
+    DELETE: (id) => `/group-student/${id}`,
+  }
 };

@@ -23,12 +23,14 @@ import Teacher from "./scenes/teacher";
 import EditTeacher from "./scenes/teacher/editTeacher";
 import ChangePass from "./scenes/changepass";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
-import ManageStudent from "./scenes/classroom/manageStudent";
+import ManageClassroomStudent from "./scenes/classroom/manageStudent";
 import AddStudent from "./scenes/classroom/addStudent";
 import Group from "./scenes/group";
 import CreateGroup from "./scenes/group/createGroup";
 import AddGroupStudent from "./scenes/group/addStudent";
 import EditGroupCondition from "./scenes/group/editCondition";
+import EditGroup from "./scenes/group/editGroup";
+import ManageGroupStudent from "./scenes/group/manageStudent";
 function App() {
   const [theme, colorMode] = useMode();
   const navigate = useNavigate();
@@ -111,10 +113,10 @@ function App() {
                   }
                 />
                 <Route
-                  path={ROUTE_PATH.MANAGE_STUDENT}
+                  path={ROUTE_PATH.MANAGE_CLASSROOM_STUDENT}
                   element={
                     <ProtectedRoutes roles={[ROLES.TEACHER]}>
-                      <ManageStudent />
+                      <ManageClassroomStudent />
                     </ProtectedRoutes>
                   }
                 />
@@ -171,6 +173,22 @@ function App() {
                   element={
                     <ProtectedRoutes roles={[ROLES.TEACHER]}>
                       <EditGroupCondition />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.MANAGE_GROUP_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <ManageGroupStudent />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.EDIT_GROUP}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditGroup />
                     </ProtectedRoutes>
                   }
                 />

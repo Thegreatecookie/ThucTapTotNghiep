@@ -4,7 +4,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Header from "../../components/Header";
-import { ClassRoomStudentSchema } from "../../schemas";
+import { ClassRoomStudentSchema, StudentSchema } from "../../schemas";
 import { ClassroomStudentAPI } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { ROUTE_PATH } from "../../constants";
@@ -14,8 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { StudentAPI } from "../../services";
-import { ClassRoomAPI } from "../../services";
+import { GroupStudentAPI } from "../../services";
+import { GroupAPI } from "../../services";
 import { useLocation } from "react-router-dom";
 
 const AddGroupStudent = () => {
@@ -30,16 +30,17 @@ const AddGroupStudent = () => {
     setValue,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(),
-    defaultValues: {
+    resolver: yupResolver(ClassRoomStudentSchema),
+    defaultValue: {
       r_classroom: "r_classroom",
+      r_group: "r_group",
     },
   });
 
   const [student, setStudent] = useState([]);
 
   const fetchStudents = (pageOptions) => {
-    ClassRoomAPI.getClassRoomById(id, pageOptions).then((res) => {
+    GroupAPI.getStudentInClassRoom(id, pageOptions).then((res) => {
       const students =
         res?.students?.map((studentItem, index) => {
           const idIncrement =
@@ -50,10 +51,15 @@ const AddGroupStudent = () => {
       setStudent(students);
     });
   };
+  useEffect(() => {
+    fetchStudents({ page: 1, pageSize: 10000 });
+  }, []);
+
+  console.log(student, "Student");
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    ClassroomStudentAPI.createClassRoomStudent(data)
+    GroupStudentAPI.createGroupStudent(data)
       .then((res) => {
         console.log(res, "CREATE RES");
         toast.success("Create ClassRoom successfully", {
@@ -83,15 +89,12 @@ const AddGroupStudent = () => {
   };
 
   useEffect(() => {
-    fetchStudents({ page: 1, pageSize: 10000 });
-  }, []);
-
-  useEffect(() => {
-    ClassRoomAPI.getClassRoomById(id)
+    GroupAPI.getGroupById(id)
       .then((res) => {
         console.log(res, "GET ONE RES");
-        const { _id } = res;
-        setValue("r_classroom", _id);
+        const { _id, r_classroom } = res;
+        setValue("r_classroom", r_classroom);
+        setValue("r_group", _id);
       })
       .catch((err) => {
         console.log(err, "lỗi");
@@ -100,7 +103,7 @@ const AddGroupStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="ADD STUDENT" />
+      <Header title="ADD STUDENT " />
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box
@@ -148,34 +151,15 @@ const AddGroupStudent = () => {
             >
               <MenuItem value="">-- Choose student --</MenuItem>
               {student.map((i) => (
-                <MenuItem key={i._id} value={i._id}>
-                  {i.firstName + " " + i.lastName}
+                <MenuItem key={i.r_student._id} value={i.r_student._id}>
+                  {i.r_student.firstName + " " + i.r_student.lastName}
                 </MenuItem>
               ))}
             </Select>
             <FormHelperText>{errors?.r_student?.message}</FormHelperText>
           </FormControl>
         </Box>
-        <Box
-          visibility="hidden"
-          display="grid"
-          gap="30px"
-          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-          sx={{
-            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-          }}
-        >
-          <TextField
-            disabled={true}
-            id="r_clasroom"
-            fullWidth
-            variant="filled"
-            type="text"
-            label="r_classroom"
-            {...register("r_classroom")}
-            sx={{ gridColumn: "span 4" }}
-          />
-        </Box>
+
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"
@@ -189,6 +173,47 @@ const AddGroupStudent = () => {
           <Button type="submit" color="secondary" variant="contained">
             Submit
           </Button>
+        </Box>
+
+        <Box
+          // visibility="hidden"
+          display="grid"
+          gap="30px"
+          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          sx={{
+            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+          }}
+        >
+          <TextField
+            disabled={true}
+            id="r_classroom"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="r_classroom"
+            {...register("r_classroom")}
+            sx={{ gridColumn: "span 4" }}
+          />
+        </Box>
+        <Box
+          // visibility="hidden"
+          display="grid"
+          gap="30px"
+          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          sx={{
+            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+          }}
+        >
+          <TextField
+            disabled={true}
+            id="r_group"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="r_group"
+            {...register("r_group")}
+            sx={{ gridColumn: "span 4" }}
+          />
         </Box>
       </Box>
     </Box>

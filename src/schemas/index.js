@@ -7,3 +7,4 @@ export * from "./Teacher.schema";
 export * from "./ClassroomStudent.schema";
 export * from "./Group.schema";
 export * from "./GroupCondition.schema"
+export * from "./GroupStudent.schema"
