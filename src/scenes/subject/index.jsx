@@ -26,19 +26,7 @@ const Subject = () => {
   const role = localStorage.getItem("role");
 
   const handleEditSubject = (id) => {
-    if (role == "admin") navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
-    else {
-      return toast.error("Contact Admin To Change", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    }
+    navigate(ROUTE_PATH.EDIT_SUBJECT, { state: { id } });
   };
 
   const fetchSubjects = (pageOptions) => {
@@ -72,8 +60,7 @@ const Subject = () => {
           selectedIds.map((id) => SubjectAPI.deleteSubject(id))
         );
         fetchSubjects(pageOptions);
-        const msg = `Deleted subjects (${selectedIds.join(", ")}) successfully`;
-        return toast.success(msg, {
+        return toast.success("Xóa thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -96,17 +83,16 @@ const Subject = () => {
         });
       }
     } catch (error) {
-      if (role == "teacher")
-        return toast.error("Contact Admin to Delete", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+      return toast.error("Xóa thất bại", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 

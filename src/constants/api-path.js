@@ -25,6 +25,8 @@ export const API_PATH = {
   CLASSROOMSTUDENT: {
     CREATE: "/classroom-student",
     DELETE: (id) => `/classroom-student/${id}`,
+    UPDATE: (id) => `/classroom-student/${id}`,
+    GET_ONE_BY_ID:(id) => `/classroom-student/${id}`,
   },
   TEACHER: {
     GET: "/teacher",
@@ -47,10 +49,12 @@ export const API_PATH = {
     UPDATE_CONDITION_GROUP: (id) => `/group/conditionToCreateGroup/${id}`,
     GET_STUDENT_IN_CLASSROOM: (id) => `/group/student-classroom/${id}`,
     GET_ONE_BY_ID: (id) => `/group/${id}`,
-    UPDATE:(id) => `/group/${id}`,
+    UPDATE: (id) => `/group/${id}`,
   },
-  GROUPSTUDENT:{
+  GROUPSTUDENT: {
     CREATE: "/group-student",
     DELETE: (id) => `/group-student/${id}`,
-  }
+    UPDATE: (id) => `/group-student/${id}`,
+    GET_ONE_BY_ID:(id) => `/group-student/${id}`,
+  },
 };

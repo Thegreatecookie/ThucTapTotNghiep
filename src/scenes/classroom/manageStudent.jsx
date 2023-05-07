@@ -18,11 +18,14 @@ const ManageClassroomStudent = () => {
   const {
     state: { id },
   } = useLocation();
-  
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
+  const handleEditStudent = (id) => {
+    navigate(ROUTE_PATH.EDIT_CLASSROOM_STUDENT, { state: { id } });
+  };
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
@@ -112,9 +115,25 @@ const ManageClassroomStudent = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
+    {
+      field: "editInfo",
+      headerName: "Edit Info",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleEditStudent(params.id)}
+              startIcon={<EditIcon />}
+            />
+          </Box>
+        );
+      },
+    },
   ];
 
-  const getClassRoomById = async (id) => {  
+  const getClassRoomById = async (id) => {
     try {
       const classRoom = await StudentAPI.getStudentByClassRoomId(id);
       if (Array.isArray(classRoom.students) && classRoom.students.length > 0) {
@@ -188,6 +207,7 @@ const ManageClassroomStudent = () => {
           }}
           onSelectionModelChange={(ids) => {
             setSelectedIds(ids);
+            console.log(ids);
           }}
         />
       </Box>

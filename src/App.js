@@ -31,6 +31,8 @@ import AddGroupStudent from "./scenes/group/addStudent";
 import EditGroupCondition from "./scenes/group/editCondition";
 import EditGroup from "./scenes/group/editGroup";
 import ManageGroupStudent from "./scenes/group/manageStudent";
+import EditStudentClassroom from "./scenes/classroom/editStudent";
+import EditStudentGroup from "./scenes/group/editStudent";
 function App() {
   const [theme, colorMode] = useMode();
   const navigate = useNavigate();
@@ -189,6 +191,22 @@ function App() {
                   element={
                     <ProtectedRoutes roles={[ROLES.TEACHER]}>
                       <EditGroup />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.EDIT_CLASSROOM_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditStudentClassroom />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.EDIT_GROUP_STUDENT}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.TEACHER]}>
+                      <EditStudentGroup />
                     </ProtectedRoutes>
                   }
                 />

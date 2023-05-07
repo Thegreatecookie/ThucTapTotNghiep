@@ -23,6 +23,9 @@ const ManageGroupStudent = () => {
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
 
+  const handleEditStudent = (id) => {
+    navigate(ROUTE_PATH.EDIT_GROUP_STUDENT, { state: { id } });
+  };
   const handleDeleteMany = async () => {
     try {
       if (selectedIds.length > 0) {
@@ -111,6 +114,22 @@ const ManageGroupStudent = () => {
       headerName: "Role",
       flex: 1,
       cellClassName: "name-column--cell",
+    },
+    {
+      field: "editInfo",
+      headerName: "Edit Info",
+      // flex:1,
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <Box display="flex" justifyContent="end">
+            <Button
+              onClick={() => handleEditStudent(params.id)}
+              startIcon={<EditIcon />}
+            />
+          </Box>
+        );
+      },
     },
   ];
 

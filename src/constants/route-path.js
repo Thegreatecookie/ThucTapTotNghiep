@@ -12,6 +12,7 @@ export const ROUTE_PATH = {
   CREATE_CLASSROOM: "/classroom/create",
   EDIT_CLASSROOM: "/classroom/edit",
   MANAGE_CLASSROOM_STUDENT: "/classroom/student",
+  EDIT_CLASSROOM_STUDENT:"/classroom/student/edit",
   ADD_CLASSROOMSTUDENT: "/classroom/add-student",
   GROUP_LIST:"/classroom/group",
   CREATE_GROUP:"/classroom/create-group",
@@ -22,4 +23,5 @@ export const ROUTE_PATH = {
   CHANGEPASS: "/change-password",
   EDIT_GROUP:"/classroom/group/edit",
   MANAGE_GROUP_STUDENT:"/classroom/group/student",
+  EDIT_GROUP_STUDENT:"/classroom/group/student/edit"
 };
