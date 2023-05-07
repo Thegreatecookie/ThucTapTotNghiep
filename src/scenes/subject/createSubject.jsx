@@ -25,6 +25,7 @@ const CreateSubject = () => {
   });
 
   const onSubmit = (data) => {
+    data.name = data.name.trim();
     console.log(data, "DATA");
     SubjectAPI.createSubject(data)
       .then((res) => {
