@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 const ManageClassroomStudent = () => {
   const [students, setStudents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [classroom, setclassroom] = useState([]);
   const {
     state: { id },
   } = useLocation();
@@ -135,9 +136,11 @@ const ManageClassroomStudent = () => {
 
   const getClassRoomById = async (id) => {
     try {
-      const classRoom = await StudentAPI.getStudentByClassRoomId(id);
-      if (Array.isArray(classRoom.students) && classRoom.students.length > 0) {
-        const studentList = classRoom.students.map((i) => ({
+      const classroom = await ClassRoomAPI.getClassRoomById(id);
+      setclassroom(classroom);
+      const student = await StudentAPI.getStudentByClassRoomId(id);
+      if (Array.isArray(student.students) && student.students.length > 0) {
+        const studentList = student.students.map((i) => ({
           ...i.r_student,
           id: i._id,
           role: i.role,
@@ -157,7 +160,7 @@ const ManageClassroomStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="STUDENTS" subtitle={`Students of classroom`} />
+      <Header title="STUDENTS" subtitle={`${classroom.name}`} />
 
       <Box
         m="40px 0 0 0"

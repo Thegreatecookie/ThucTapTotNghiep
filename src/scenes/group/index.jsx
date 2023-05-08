@@ -6,7 +6,7 @@ import { CustomToolbar } from "../global/customToolbar";
 import { ROUTE_PATH } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { GroupAPI } from "../../services";
+import { ClassRoomAPI, GroupAPI } from "../../services";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
@@ -16,6 +16,7 @@ import GroupIcon from "@mui/icons-material/Group";
 const Group = () => {
   const [groups, setGroup] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [classroom, setclassroom] = useState([]);
   const {
     state: { id },
   } = useLocation();
@@ -29,7 +30,6 @@ const Group = () => {
   };
 
   const handleShowStudent = (id) => {
-    console.log(id, "ID func");
     navigate(ROUTE_PATH.MANAGE_GROUP_STUDENT, {
       state: { id },
     });
@@ -43,8 +43,9 @@ const Group = () => {
 
   const getGroupById = async (id) => {
     try {
+      const classroom = await ClassRoomAPI.getClassRoomById(id);
       const group = await GroupAPI.getByClassRoomID(id);
-
+      setclassroom(classroom,"Classroom");
       if (Array.isArray(group) && group.length > 0) {
         const groupList = group.map((i) => ({
           name: i.name,
@@ -54,10 +55,13 @@ const Group = () => {
       } else {
         setGroup([]);
       }
+
     } catch (error) {
       setGroup([]);
     }
   };
+
+  console.log(classroom);
 
   useEffect(() => {
     getGroupById(id);
@@ -133,7 +137,6 @@ const Group = () => {
       // flex:1,
       width: 100,
       renderCell: (params) => {
-        console.log(params, "PARAMS");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -149,7 +152,6 @@ const Group = () => {
       headerName: "Add Student",
       width: 100,
       renderCell: (params) => {
-        // console.log(params, "params");
         return (
           <Box display="flex" justifyContent="end">
             <Button
@@ -164,7 +166,10 @@ const Group = () => {
 
   return (
     <Box m="20px">
-      <Header title="GROUPS" subtitle="List of groups in " />
+      <Header
+        title="GROUPS"
+        subtitle={`${classroom.name}`}
+      />
       <Box
         m="40px 0 0 0"
         height="75vh"
@@ -214,7 +219,6 @@ const Group = () => {
           }}
           onSelectionModelChange={(ids) => {
             setSelectedIds(ids);
-            console.log(ids, "GR index");
           }}
         />
       </Box>

@@ -80,7 +80,7 @@ const EditGroup = () => {
 
   return (
     <Box m="20px">
-      <Header title="EDIT SUBJECT" subtitle="Edit Subject Information" />
+      <Header title="EDIT GROUP" subtitle="Edit Group Name" />
 
       <Box
         component="form"

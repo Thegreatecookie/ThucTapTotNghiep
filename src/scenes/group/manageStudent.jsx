@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 const ManageGroupStudent = () => {
   const [students, setStudents] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [group,setGroup]=useState([]);
   const {
     state: { id },
   } = useLocation();
@@ -30,9 +31,7 @@ const ManageGroupStudent = () => {
     try {
       if (selectedIds.length > 0) {
         await Promise.all(
-          selectedIds.map((id) =>
-            GroupStudentAPI.deleteGroupStudent(id)
-          )
+          selectedIds.map((id) => GroupStudentAPI.deleteGroupStudent(id))
         );
         getGroupById(id);
         const msg = `Xóa sinh viên thành công`;
@@ -135,19 +134,20 @@ const ManageGroupStudent = () => {
 
   const getGroupById = async (id) => {
     try {
-      const group = await GroupAPI.getStudentinGroup(id);
-      console.log(group, "GROUP");
-      if (Array.isArray(group.students) && group.students.length > 0) {
-        const studentList = group.students.map((i) => ({
+      const group= await GroupAPI.getGroupById(id);
+      const student = await GroupAPI.getStudentinGroup(id);
+      setGroup(group);
+      if (Array.isArray(student.students) && student.students.length > 0) {
+        const studentList = student.students.map((i) => ({
           ...i,
           id: i._id,
-          role:i.role,
-          firstName:i.r_student.firstName,
-          lastName:i.r_student.lastName,
-          idStudent:i.r_student.idStudent,
-          email:i.r_student.email,
-          phone:i.r_student.phone,
-          classRoom:i.r_student.classRoom,
+          role: i.role,
+          firstName: i.r_student.firstName,
+          lastName: i.r_student.lastName,
+          idStudent: i.r_student.idStudent,
+          email: i.r_student.email,
+          phone: i.r_student.phone,
+          classRoom: i.r_student.classRoom,
         }));
         setStudents(studentList);
       } else {
@@ -164,7 +164,7 @@ const ManageGroupStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="STUDENTS" subtitle={`Students of classroom: ${1}`} />
+      <Header title="STUDENTS" subtitle={`${group.name}`} />
 
       <Box
         m="40px 0 0 0"
