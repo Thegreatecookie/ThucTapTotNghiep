@@ -23,18 +23,34 @@ const CreateSubject = () => {
   });
 
   const onSubmit = (data) => {
-    console.log(data, "DATA");
     AccountAPI.changePassword(data)
       .then((res) => {
-        console.log(res, "CREATE RES");
         const msgSucc = res.message;
-        alert(msgSucc);
+        // alert(msgSucc);
+        return toast.success(msgSucc, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
       .catch((err) => {
-        // Do something
-        console.log(err, "ERR");
         const msgErr = err.response.data.message;
-        alert(msgErr);
+        // alert(msgErr);
+        return toast.error(msgErr, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 

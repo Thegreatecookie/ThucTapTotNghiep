@@ -9,7 +9,8 @@ export const SignUpSchema = yup.object({
     .matches(
       nameRegExr,
       "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
-    ),
+    )
+    .trim("Không được kết thúc bằng dấu cách"),
   lastName: yup
     .string()
     .max(30, "Tối đa 30 ký tự")
@@ -17,7 +18,8 @@ export const SignUpSchema = yup.object({
     .matches(
       nameRegExr,
       "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
-    ),
+    )
+    .trim("Không được kết thúc bằng dấu cách"),
   phone: yup
     .string()
     .required("Nhập số điện thoại")

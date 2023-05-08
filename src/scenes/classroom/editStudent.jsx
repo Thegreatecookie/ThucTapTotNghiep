@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Header from "../../components/Header";
 import { RoleSchema } from "../../schemas";
-import { ClassroomStudentAPI } from "../../services";
+import { ClassroomStudentAPI, StudentAPI } from "../../services";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import InputLabel from "@mui/material/InputLabel";
@@ -25,20 +25,23 @@ const EditStudentClassroom = () => {
     handleSubmit,
     setValue,
     control,
+    register,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(RoleSchema),
     defaultValues: {
       role: "role",
+      firstName: "firstName",
+      lastName: "lastName",
     },
   });
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    ClassroomStudentAPI.updateClassRoomStudent(id,data)
+    ClassroomStudentAPI.updateClassRoomStudent(id, data)
       .then((res) => {
-        console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        // console.log(res, "CREATE RES");
+        toast.success("Sửa vai trò sinh viên thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -50,8 +53,8 @@ const EditStudentClassroom = () => {
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -68,6 +71,12 @@ const EditStudentClassroom = () => {
     ClassroomStudentAPI.getClassRoomStudentById(id)
       .then((res) => {
         console.log(res, "GET ONE RES");
+        StudentAPI.getStudentById(res.r_student).then((res1) => {
+          console.log(res1);
+          const { firstName, lastName } = res1;
+          setValue("firstName", firstName);
+          setValue("lastName", lastName);
+        });
         const { role } = res;
         setValue("role", role);
       })
@@ -78,7 +87,7 @@ const EditStudentClassroom = () => {
 
   return (
     <Box m="20px">
-      <Header title="ADD STUDENT" />
+      <Header title="EDIT STUDENT'S ROLE" subtitle="Change Role Of Student " />
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box
@@ -89,6 +98,31 @@ const EditStudentClassroom = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
+          <TextField
+            disabled={true}
+            id="firstName"
+            fullWidth
+            variant="filled"
+            label="First Name"
+            type="text"
+            {...register("firstName")}
+            error={!!errors?.firstName?.message}
+            helperText={errors?.firstName?.message}
+            sx={{ gridColumn: "span 2" }}
+          />
+
+          <TextField
+            disabled={true}
+            id="lastName"
+            fullWidth
+            variant="filled"
+            type="text"
+            label="Last Name"
+            {...register("lastName")}
+            error={!!errors?.lastName?.message}
+            helperText={errors?.lastName?.message}
+            sx={{ gridColumn: "span 2" }}
+          />
           <FormControl
             sx={{ gridColumn: "span 4" }}
             variant="filled"
@@ -136,8 +170,7 @@ const EditStudentClassroom = () => {
           sx={{
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
-        >
-        </Box>
+        ></Box>
       </Box>
     </Box>
   );

@@ -58,7 +58,7 @@ const EditClassRoom = () => {
     ClassRoomAPI.updateClassRoom(id, data)
       .then((res) => {
         console.log(res, "UPDATE RES");
-        toast.success("Update ClassRoom successfully", {
+        toast.success("Cập nhật tên lớp học thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -70,8 +70,9 @@ const EditClassRoom = () => {
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Update ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        // alert(msgErr);
+        return toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,

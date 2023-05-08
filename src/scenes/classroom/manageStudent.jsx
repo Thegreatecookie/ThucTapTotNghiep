@@ -35,7 +35,7 @@ const ManageClassroomStudent = () => {
           )
         );
         getClassRoomById(id);
-        const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
+        const msg = `Xóa sinh viên thành công`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -47,7 +47,7 @@ const ManageClassroomStudent = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn sinh viên muốn xóa", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,

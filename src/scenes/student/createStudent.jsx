@@ -23,11 +23,17 @@ const CreateStudent = () => {
   });
 
   const onSubmit = (data) => {
+    // data.firstName = data.firstName.trim();
+    // data.lastName = data.lastName.trim();
+    // data.email = data.email.trim();
+    // data.idStudent = data.idStudent.trim();
+    // data.classRoom.data.classRoom.trim();
+    // data.phone = data.phone.trim();
     console.log(data, "DATA");
     StudentAPI.createStudent(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create student successfully", {
+        toast.success("Tạo sinh viên thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -36,15 +42,23 @@ const CreateStudent = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.STUDENT_LIST),
+          // onClose: () => navigate(ROUTE_PATH.STUDENT_LIST),
         });
       })
       .catch((err) => {
         // Do something
         console.log(err, "ERR");
         const msgErr = err.response.data.message.split("failed:")[1];
-        alert(msgErr);
-        // setCreateError(msgErr);
+        toast.error(msgErr, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
@@ -129,14 +143,13 @@ const CreateStudent = () => {
             sx={{ gridColumn: "span 4" }}
           />
         </Box>
-        {/* {createError && <p>{createError}</p>} */}
         <Box display="flex" justifyContent="end" mt="20px">
           <Button
             type="button"
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.STUDENT_LIST)}
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>

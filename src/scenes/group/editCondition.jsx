@@ -45,33 +45,31 @@ const EditGroupCondition = () => {
     GroupAPI.updateGroupCondition(id, data)
       .then((res) => {
         console.log(res, "UPDATE RES");
-        // toast.success("Update Subject successfully", {
-        //   position: "bottom-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "colored",
-        // });
-        alert("Sửa thông tin môn học thành công");
+        toast.success("Sửa điều kiện thành công", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
       .catch((err) => {
-        // Do something
-        // toast.error("Update Subject failure", {
-        //   position: "bottom-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "colored",
-        // });
-        console.log(err, "ERR");
-        alert("Tên môn học đã tồn tại");
+        const msgErr = err.response.data.message;
+        // alert(msgErr);
+        return toast.error(msgErr, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
       });
+    })
   };
 
   useEffect(() => {
@@ -95,7 +93,7 @@ const EditGroupCondition = () => {
     <Box m="20px">
       <Header
         title="EDIT GROUP CONDITION"
-        subtitle="Edit Min Max Condition Of Group"
+        subtitle="Edit Condition To Create Group"
       />
 
       <Box

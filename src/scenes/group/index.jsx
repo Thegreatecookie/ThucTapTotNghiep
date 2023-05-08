@@ -80,7 +80,7 @@ const Group = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn nhóm muốn xóa", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -92,7 +92,7 @@ const Group = () => {
         });
       }
     } catch (error) {
-      return toast.error("Deleted failure", {
+      return toast.error("Xóa thất bại", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,

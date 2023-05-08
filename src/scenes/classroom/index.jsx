@@ -77,7 +77,7 @@ const ClassRoom = () => {
     fetchClassrooms(pageOptions);
   }, [pageOptions]);
 
-  console.log(classRoom, "CLASSROOM");
+  // console.log(classRoom, "CLASSROOM");
 
   const handleDeleteMany = async () => {
     try {
@@ -86,9 +86,7 @@ const ClassRoom = () => {
           selectedIds.map((id) => ClassRoomAPI.deleteClassRoom(id))
         );
         fetchClassrooms(pageOptions);
-        const msg = `Deleted classrooms (${selectedIds.join(
-          ", "
-        )}) successfully`;
+        const msg = `Xóa lớp học thành công`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -100,7 +98,7 @@ const ClassRoom = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn lớp muốn xóa", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -234,39 +232,6 @@ const ClassRoom = () => {
         );
       },
     },
-    // {
-    //   field: "addStudent",
-    //   headerName: "Add Student",
-    //   // flex:1,
-    //   width: 300,
-    //   renderCell: (params) => {
-    //     console.log(params, "params");
-    //     return (
-    //       <Box display="flex" justifyContent="end">
-    //         <Button
-    //           onClick={() => handleEditClassroom(params.id)}
-    //           startIcon={<EditIcon />}
-    //         />
-    //         <Button
-    //           onClick={() => handleShowStudent(params.row._id)}
-    //           startIcon={<AccountCircleIcon />}
-    //         />
-    //         <Button
-    //           onClick={() => handleAddStudent(params.id)}
-    //           startIcon={<PersonAddAltIcon />}
-    //         />
-    //         <Button
-    //           onClick={() => handleShowGroup(params.id)}
-    //           startIcon={<GroupIcon />}
-    //         />
-    //         <Button
-    //           onClick={() => handleCreateGroup(params.id)}
-    //           startIcon={<GroupAddIcon />}
-    //         />
-    //       </Box>
-    //     );
-    //   },
-    // },
   ];
 
   return (

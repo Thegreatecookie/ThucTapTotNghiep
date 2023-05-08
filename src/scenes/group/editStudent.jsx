@@ -35,10 +35,10 @@ const EditStudentGroup = () => {
 
   const onSubmit = (data) => {
     console.log(data, "DATA");
-    GroupStudentAPI.updateGroupStudent(id,data)
+    GroupStudentAPI.updateGroupStudent(id, data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        toast.success("Sửa vai trò sinh viên thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -51,7 +51,8 @@ const EditStudentGroup = () => {
       })
       .catch((err) => {
         // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        return toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -65,7 +66,7 @@ const EditStudentGroup = () => {
   };
 
   useEffect(() => {
-   GroupStudentAPI.getGroupStudentById(id)
+    GroupStudentAPI.getGroupStudentById(id)
       .then((res) => {
         console.log(res, "GET ONE RES");
         const { role } = res;
@@ -136,8 +137,7 @@ const EditStudentGroup = () => {
           sx={{
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
-        >
-        </Box>
+        ></Box>
       </Box>
     </Box>
   );

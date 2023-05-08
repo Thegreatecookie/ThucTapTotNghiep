@@ -7,3 +7,4 @@ export * from "./nameRegExr";
 export * from "./idstudentRegExr";
 export * from "./subjectRegExr";
 export * from "./groupRegExr";
+export * from "./classroom-nameRegExr"

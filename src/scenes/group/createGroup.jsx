@@ -41,7 +41,7 @@ const CreateGroup = () => {
     GroupAPI.createGroup(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        toast.success("Tạo nhóm thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -53,8 +53,8 @@ const CreateGroup = () => {
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -64,7 +64,7 @@ const CreateGroup = () => {
           progress: undefined,
           theme: "colored",
         });
-      });
+      }); 
   };
 
   useEffect(() => {

@@ -46,9 +46,7 @@ const Student = () => {
     fetchStudents(pageOptions);
   }, [pageOptions]);
 
-  console.log(student, "STUDENT");
-
-  const role = localStorage.getItem("role");
+  // console.log(student, "STUDENT");
 
   const handleDeleteMany = async () => {
     try {
@@ -57,7 +55,8 @@ const Student = () => {
           selectedIds.map((id) => StudentAPI.deleteStudent(id))
         );
         fetchStudents(pageOptions);
-        const msg = `Deleted students (${selectedIds.join(", ")}) successfully`;
+        //bỏ (${selectedIds.join(", ")}) vào thanh msg để báo các id dc xóa
+        const msg = `Xóa thành công`;
         return toast.success(msg, {
           position: "bottom-right",
           autoClose: 5000,
@@ -69,7 +68,7 @@ const Student = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn sinh viên muốn xóa", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -81,7 +80,7 @@ const Student = () => {
         });
       }
     } catch (error) {
-      return toast.error("Deleted failure", {
+      return toast.error("Xóa thất bại", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -150,7 +149,7 @@ const Student = () => {
 
   const [fileUpload, setFileUpload] = useState();
   const handleChangeImportExcel = (e) => {
-    console.log(e);
+    // console.log(e);
     setFileUpload(e.target?.files[0]);
   };
 
@@ -158,12 +157,11 @@ const Student = () => {
     if (fileUpload) {
       const formData = new FormData();
       formData.append("excelFile", fileUpload);
-
       StudentAPI.importStudentsFromExcel(formData)
         .then((res) => {
-          console.log(res, "RES EXCEL");
+          // console.log(res, "RES EXCEL");
           fetchStudents(pageOptions);
-          toast.success("Import successfully", {
+          toast.success("Import thành công", {
             position: "bottom-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -172,14 +170,24 @@ const Student = () => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-          });
+          }); 
         })
         .catch((err) => {
-          console.log(err, "ERRROR IMPORT");
+          // Do something
+          console.log(err, "ERR");
           const msgErr = err.response.data.message.split("failed:")[1];
-          alert(msgErr);
+          toast.error(msgErr, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
         });
-    }
+    };
   };
 
   return (

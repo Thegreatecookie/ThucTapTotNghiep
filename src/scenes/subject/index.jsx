@@ -71,7 +71,7 @@ const Subject = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn môn học muốn xóa", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,

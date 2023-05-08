@@ -52,11 +52,11 @@ const AddStudent = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data, "DATA");
+    // console.log(data, "DATA");
     ClassroomStudentAPI.createClassRoomStudent(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        toast.success("Thêm sinh viên vào lớp học thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -68,8 +68,9 @@ const AddStudent = () => {
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        // alert(msgErr);
+        return toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -100,7 +101,7 @@ const AddStudent = () => {
 
   return (
     <Box m="20px">
-      <Header title="ADD STUDENT" />
+      <Header title="ADD STUDENT" subtitle="Add Student Into Classroom" />
 
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Box

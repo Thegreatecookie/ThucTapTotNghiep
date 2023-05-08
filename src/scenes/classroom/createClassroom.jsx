@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { SubjectAPI } from "../../services";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const CreateClassroom = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
@@ -44,11 +44,11 @@ const CreateClassroom = () => {
   };
 
   const onSubmit = (data) => {
-    console.log(data, "DATA");
+    // console.log(data, "DATA");
     ClassRoomAPI.createClassRoom(data)
       .then((res) => {
-        console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        // console.log(res, "CREATE RES");
+        toast.success("Tạo lớp thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -57,12 +57,13 @@ const CreateClassroom = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.CLASSROOM_LIST),
+          // onClose: () => navigate(ROUTE_PATH.CLASSROOM_LIST),
         });
       })
       .catch((err) => {
-        // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        // alert(msgErr);
+        return toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -93,7 +94,7 @@ const CreateClassroom = () => {
           }}
         >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="Chọn ngày bắt đầu"/>
+            <DatePicker label="Chọn ngày bắt đầu" />
           </LocalizationProvider>
 
           <TextField
@@ -161,7 +162,7 @@ const CreateClassroom = () => {
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.CLASSROOM_LIST)}
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>

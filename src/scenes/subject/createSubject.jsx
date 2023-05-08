@@ -25,30 +25,37 @@ const CreateSubject = () => {
   });
 
   const onSubmit = (data) => {
-    data.name = data.name.trim();
+    // data.name = data.name.trim();
     console.log(data, "DATA");
     SubjectAPI.createSubject(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        // toast.success("Create Subject successfully", {
-        //   position: "bottom-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        //   theme: "colored",
-        //   onClose: () => navigate(ROUTE_PATH.SUBJECT_LIST),
-        // });
-        alert("Thêm môn học thành công");
+        toast.success("Tạo môn học thành công", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
+
       .catch((err) => {
         // Do something
         console.log(err, "ERR");
-        const msgErr = err.response.data.message.split("failed:")[1];
-        alert(msgErr);
-        // setCreateError(msgErr);
+        const msgErr = err.response.data.message;
+        toast.error(msgErr, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
   return (
@@ -83,7 +90,7 @@ const CreateSubject = () => {
             color="secondary"
             variant="contained"
             sx={{ marginRight: "12px" }}
-            onClick={() => navigate(ROUTE_PATH.SUBJECT_LIST)}
+            onClick={() => navigate(-1)}
           >
             Back
           </Button>

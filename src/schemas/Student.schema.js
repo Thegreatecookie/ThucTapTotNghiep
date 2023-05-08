@@ -6,20 +6,24 @@ import { IDStudentRegExr } from "../constants";
 export const StudentSchema = yup.object().shape({
   firstName: yup
     .string()
-    .max(30, "Tối đa 30 ký tự")
     .required("Nhập họ và tên lót")
+    .min(2,"Tên quá ngắn")
+    .max(30, "Tối đa 30 ký tự")
     .matches(
       nameRegExr,
       "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
-    ),
+    )
+    .trim("Không được kết thúc bằng dấu cách"),
   lastName: yup
     .string()
-    .max(30, "Tối đa 30 ký tự")
     .required("Nhập tên")
+    .min(2,"Tên quá ngắn")
+    .max(30, "Tối đa 30 ký tự")
     .matches(
       nameRegExr,
       "Chữ cái đầu in hoa, không nhập số hoặc ký tự đặc biệt"
-    ),
+    )
+    .trim("Không được kết thúc bằng dấu cách"),
   email: yup.string().required("Nhập email").email("Đuôi email không hợp lệ"),
   phone: yup
     .string()

@@ -62,7 +62,7 @@ const AddGroupStudent = () => {
     GroupStudentAPI.createGroupStudent(data)
       .then((res) => {
         console.log(res, "CREATE RES");
-        toast.success("Create ClassRoom successfully", {
+        toast.success("Thêm sinh viên vào nhóm thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -75,7 +75,8 @@ const AddGroupStudent = () => {
       })
       .catch((err) => {
         // Do something
-        toast.error("Create ClassRoom failure", {
+        const msgErr = err.response.data.message;
+        toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -176,7 +177,7 @@ const AddGroupStudent = () => {
         </Box>
 
         <Box
-          // visibility="hidden"
+          visibility="hidden"
           display="grid"
           gap="30px"
           gridTemplateColumns="repeat(4, minmax(0, 1fr))"
@@ -196,7 +197,7 @@ const AddGroupStudent = () => {
           />
         </Box>
         <Box
-          // visibility="hidden"
+          visibility="hidden"
           display="grid"
           gap="30px"
           gridTemplateColumns="repeat(4, minmax(0, 1fr))"

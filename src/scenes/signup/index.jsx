@@ -38,23 +38,23 @@ const SignUp = () => {
     TeacherAPI.createTeacher(data)
       .then((respone) => {
         console.log(respone, "RESPONSE");
-        setSignupError("");
-        toast.success("Create Account successfully", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          onClose: () => navigate(ROUTE_PATH.SIGNIN),
-        });
+        alert("Tạo tài khoản thành công");
+        // toast.success("Tạo tài khoản thành công", {
+        //   position: "bottom-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        //   theme: "colored",
+        //   onClose: () => navigate(ROUTE_PATH.SIGNIN),
+        // });
       })
       .catch((err) => {
         console.log(err, "ERR");
         const msgErr = err.response.data.message;
-        setSignupError(msgErr?.trim());
+        setSignupError(msgErr?.split("failed:")[1]);
       });
   };
 

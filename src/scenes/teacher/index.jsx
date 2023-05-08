@@ -68,7 +68,7 @@ const Teacher = () => {
           theme: "colored",
         });
       } else {
-        return toast.warning("No row is selected", {
+        return toast.warning("Vui lòng chọn giáo viên muốn xóa", {
           position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -180,7 +180,7 @@ const Teacher = () => {
           components={{
             Toolbar: () =>
               CustomToolbar({
-                onDelete: handleDeleteMany,
+                onDelete: null,
               }),
           }}
           page={pageOptions.page - 1}

@@ -35,11 +35,13 @@ const EditStudent = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data, "DATA");
+    // data.firstName = data.firstName.trim();
+    // data.lastName = data.lastName.trim();
+    // data.classRoom = data.classRoom.trim();
+    // data.phone = data.phone.trim();
     StudentAPI.updateStudent(id, data)
       .then((res) => {
-        console.log(res, "UPDATE RES");
-        toast.success("Update student successfully", {
+        toast.success("Cập nhật thông tin sinh viên thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -52,7 +54,9 @@ const EditStudent = () => {
       })
       .catch((err) => {
         // Do something
-        toast.error("Create student failure", {
+        console.log(err, "ERR");
+        const msgErr = err.response.data.message.split("failed:")[1];
+        toast.error(msgErr, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -68,27 +72,24 @@ const EditStudent = () => {
   useEffect(() => {
     StudentAPI.getStudentById(id)
       .then((res) => {
-        console.log(res, "GET ONE RES");
         const { idStudent, classRoom, email, firstName, lastName, phone } = res;
         setValue("firstName", firstName, {
           shouldValidate: true,
         });
-        setValue("idStudent", idStudent, { shouldValidate: true });
-        setValue("classRoom", classRoom, { shouldValidate: true });
-        setValue("email", email, { shouldValidate: true });
-        setValue("lastName", lastName, { shouldValidate: true });
-        setValue("phone", phone, { shouldValidate: true });
+        setValue("idStudent", idStudent);
+        setValue("classRoom", classRoom);
+        setValue("email", email);
+        setValue("lastName", lastName);
+        setValue("phone", phone);
       })
       .catch((err) => {
         // Do something
       });
   }, [id]);
 
-  console.log(id, "STATE id");
-
   return (
     <Box m="20px">
-      <Header title="EDIT STUDENT" subtitle="Edit student file" />
+      <Header title="EDIT STUDENT" subtitle="Edit Student Information" />
 
       <Box
         component="form"
