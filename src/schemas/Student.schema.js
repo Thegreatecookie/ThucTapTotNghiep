@@ -7,7 +7,7 @@ export const StudentSchema = yup.object().shape({
   firstName: yup
     .string()
     .required("Nhập họ và tên lót")
-    .min(2,"Tên quá ngắn")
+    .min(2, "Tên quá ngắn")
     .max(30, "Tối đa 30 ký tự")
     .matches(
       nameRegExr,
@@ -17,7 +17,7 @@ export const StudentSchema = yup.object().shape({
   lastName: yup
     .string()
     .required("Nhập tên")
-    .min(2,"Tên quá ngắn")
+    .min(2, "Tên quá ngắn")
     .max(30, "Tối đa 30 ký tự")
     .matches(
       nameRegExr,
@@ -49,5 +49,5 @@ export const StudentSchema = yup.object().shape({
       IDStudentRegExr,
       "Nhập MSSV theo phương thức: DH + 8 số ( VD: DH51804825)"
     )
-    .length(10, "MSSV không hợp lệ"),
+    .length(10, "MSSV không hợp lệ")
 });

@@ -6,5 +6,6 @@ export const SubjectSchema = yup.object().shape({
     .required("Nhập tên môn học")
     .min(2, "Tên quá ngắn")
     .max(30, "Tối đa 30 ký tự")
-    .matches(subjectRegExr, "Viết hoa chữ cái đầu của từ đầu tiên, Không được nhập số đầu tiên, Không được nhập ký tự đặc biệt"),
+    .matches(subjectRegExr, "Viết hoa chữ cái đầu của từ đầu tiên, Không được nhập số đầu tiên, Không được nhập ký tự đặc biệt")
+    .trim("Không được kết thúc bằng dấu cách"),
 });
