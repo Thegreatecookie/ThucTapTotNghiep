@@ -58,7 +58,7 @@ const AddStudent = () => {
         console.log(res, "CREATE RES");
         toast.success("Thêm sinh viên vào lớp học thành công", {
           position: "bottom-right",
-          autoClose: 5000,
+          autoClose: 5000,  
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

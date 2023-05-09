@@ -15,8 +15,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { SubjectAPI } from "../../services";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 const CreateClassroom = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -29,8 +29,8 @@ const CreateClassroom = () => {
     resolver: yupResolver(ClassRoomSchema),
   });
 
-  const [valueStart, setValueStart] = React.useState(dayjs());
-  const [valueEnd, setValueEnd] = React.useState(dayjs());
+  // const [valueStart, setValueStart] = React.useState(dayjs());
+  // const [valueEnd, setValueEnd] = React.useState(dayjs());
   const [subject, setSubject] = useState([]);
 
   const fetchSubjects = (pageOptions) => {
@@ -96,7 +96,7 @@ const CreateClassroom = () => {
             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
           }}
         >
-          <LocalizationProvider id="start" dateAdapter={AdapterDayjs}>
+          {/* <LocalizationProvider id="start" dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Chọn ngày bắt đầu"
               {...register("start")}
@@ -114,7 +114,7 @@ const CreateClassroom = () => {
               value={valueEnd}
               onChange={(newValue) => setValueEnd(newValue)}
             />
-          </LocalizationProvider>
+          </LocalizationProvider> */}
           <TextField
             id="name"
             fullWidth

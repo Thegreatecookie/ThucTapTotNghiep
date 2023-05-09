@@ -33,6 +33,7 @@ import EditGroup from "./scenes/group/editGroup";
 import ManageGroupStudent from "./scenes/group/manageStudent";
 import EditStudentClassroom from "./scenes/classroom/editStudent";
 import EditStudentGroup from "./scenes/group/editStudent";
+import CreateTeacher from "./scenes/teacher/createTeacher";
 function App() {
   const [theme, colorMode] = useMode();
   const navigate = useNavigate();
@@ -79,6 +80,22 @@ function App() {
                   element={
                     <ProtectedRoutes roles={[ROLES.ADMIN]}>
                       <Teacher />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.CREATE_TEACHER}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <CreateTeacher />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path={ROUTE_PATH.EDIT_TEACHER}
+                  element={
+                    <ProtectedRoutes roles={[ROLES.ADMIN]}>
+                      <EditTeacher />
                     </ProtectedRoutes>
                   }
                 />

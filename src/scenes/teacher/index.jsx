@@ -20,11 +20,19 @@ const Teacher = () => {
     page: 1,
     pageSize: 10,
   }));
-  const [selectedIds, setSelectedIds] = useState([]);
+  // const [selectedIds, setSelectedIds] = useState([]);
+
+  const [selectionModel, setSelectionModel] = useState([]);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const navigate = useNavigate();
+
+  const handleAddTeacher = (id) => {
+    navigate(ROUTE_PATH.CREATE_TEACHER, {
+      state: { id },
+    });
+  };
 
   const handleEditTeacher = (id) =>
     navigate(ROUTE_PATH.EDIT_TEACHER, { state: { id } });
@@ -47,17 +55,13 @@ const Teacher = () => {
     fetchTeachers(pageOptions);
   }, [pageOptions]);
 
-  console.log(teacher, "TEACHER");
-
-  const handleDeleteMany = async () => {
-    try {
-      if (selectedIds.length > 0) {
-        await Promise.all(
-          selectedIds.map((id) => TeacherAPI.deleteTeacher(id))
-        );
+  const handleDeleteMany = () => {
+    console.log(selectionModel);
+    TeacherAPI.deleteTeacher(selectionModel)
+      .then((res) => {
         fetchTeachers(pageOptions);
-        const msg = `Deleted teachers (${selectedIds.join(", ")}) successfully`;
-        return toast.success(msg, {
+        // console.log(res, "CREATE RES");
+        toast.success("Xóa giáo viên thành công", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -67,10 +71,13 @@ const Teacher = () => {
           progress: undefined,
           theme: "colored",
         });
-      } else {
-        return toast.warning("Vui lòng chọn giáo viên muốn xóa", {
+      })
+      .catch((err) => {
+        const msgErr = err.response.data.message;
+        // alert(msgErr);
+        return toast.error(msgErr, {
           position: "bottom-right",
-          autoClose: 3000,
+          autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -78,21 +85,8 @@ const Teacher = () => {
           progress: undefined,
           theme: "colored",
         });
-      }
-    } catch (error) {
-      return toast.error("Deleted failure", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
       });
-    }
   };
-
   const columns = [
     { field: "idIncrement", headerName: "ID", flex: 0.5 },
     {
@@ -119,20 +113,20 @@ const Teacher = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
-    // {
-    //   field: "action",
-    //   headerName: "Action",
-    //   width: 90,
-    //   renderCell: (params) => {
-    //     // console.log(params, "params");
-    //     return (
-    //       <Button
-    //         onClick={() => handleEditTeacher(params.id)}
-    //         startIcon={<EditIcon />}
-    //       />
-    //     );
-    //   },
-    // },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 90,
+      renderCell: (params) => {
+        // console.log(params, "params");
+        return (
+          <Button
+            onClick={() => handleEditTeacher(params.id)}
+            startIcon={<EditIcon />}
+          />
+        );
+      },
+    },
   ];
 
   return (
@@ -175,12 +169,14 @@ const Teacher = () => {
       >
         <DataGrid
           checkboxSelection
+          selectionModel={selectionModel}
           rows={teacher}
           columns={columns}
           components={{
             Toolbar: () =>
               CustomToolbar({
-                onDelete: null,
+                onDelete: handleDeleteMany,
+                onAdd: handleAddTeacher,
               }),
           }}
           page={pageOptions.page - 1}
@@ -195,9 +191,18 @@ const Teacher = () => {
           pagination
           paginationMode="server"
           rowsPerPageOptions={[10, 25, 50]}
-          onSelectionModelChange={(ids) => {
-            console.log(ids, "IDS");
-            setSelectedIds(ids);
+          // onSelectionModelChange={(ids) => {
+          //   console.log(ids, "IDS");
+          //   setSelectedIds(ids);
+          // }}
+          onSelectionModelChange={(selection) => {
+            if (selection.length > 1) {
+              const selectionSet = new Set(selectionModel);
+              const result = selection.filter((s) => !selectionSet.has(s));
+              setSelectionModel(result);
+            } else {
+              setSelectionModel(selection);
+            }
           }}
         />
       </Box>

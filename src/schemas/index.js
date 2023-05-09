@@ -9,3 +9,4 @@ export * from "./Group.schema";
 export * from "./GroupCondition.schema"
 export * from "./GroupStudent.schema"
 export * from "./Role.schema"
+export * from "./Teacher.schema"
