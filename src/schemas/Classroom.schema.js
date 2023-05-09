@@ -14,4 +14,6 @@ export const ClassRoomSchema = yup.object().shape({
     .trim("Không được kết thúc bằng dấu cách"),
   period: yup.string().required("Chọn ca dạy"),
   r_subject: yup.string().required("Chọn môn học cho lớp"),
+  // start:yup.date().required("Chọn ngày bắt đầu").max(yup.ref("end"),).min(Date.now()),
+  // end:yup.date().required("Chọn ngày kết thúc").min(yup.ref("start")).max(Date.now()-)
 });
